@@ -2,26 +2,35 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
-}
-
 body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  @applyleading-normal dark:bg-[#121212] bg-[#f1f1f1];
+}
+html {
+  scroll-behavior: smooth;
+}
+html::-webkit-scrollbar,
+textarea::-webkit-scrollbar,
+div::-webkit-scrollbar {
+  width: 0.5rem;
+}
+div::-webkit-scrollbar,
+textarea::-webkit-scrollbar {
+  height: 0.45rem;
+}
+html::-webkit-scrollbar-thumb,
+div::-webkit-scrollbar-thumb,
+textarea::-webkit-scrollbar-thumb {
+  border-radius: 5rem;
+  background: #ccc;
+  transition: all 0.5s ease-in-out;
+}
+html::-webkit-scrollbar-thumb:hover,
+div::-webkit-scrollbar-thumb:hover,
+textarea::-webkit-scrollbar-thumb:hover {
+  background: #7e7c7c;
+}
+html::-webkit-scrollbar-track,
+div::-webkit-scrollbar-thumb:hover,
+textarea::-webkit-scrollbar-thumb:hover {
+  background: transparent;
 }
