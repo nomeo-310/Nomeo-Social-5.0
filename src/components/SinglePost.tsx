@@ -14,8 +14,8 @@ import { singlePostProps } from '@/types/types'
 import { useNotifications } from '@/hooks/useNotifications'
 import { Alert } from './Notifications'
 import { timeFormatter } from '@/hooks/timeFormatter'
-import { FacebookIcon, TwitterIcon, LinkedinIcon, PinterestIcon, WhatsappIcon } from 'react-share'
-import { FacebookShareButton, TwitterShareButton, LinkedinShareButton, PinterestShareButton, WhatsappShareButton } from 'react-share'
+import { FacebookIcon, TwitterIcon, LinkedinIcon, WhatsappIcon } from 'react-share'
+import { FacebookShareButton, TwitterShareButton, LinkedinShareButton, WhatsappShareButton } from 'react-share'
 
 type menuItemProps = {
   children: React.ReactNode
@@ -28,6 +28,7 @@ const FeedSinglePost = ({isRepost, originalAuthor, originalAuthorId, originalAut
   const [showCommentSection, setShowCommentSection] = React.useState(false);
   const [postReady, setPostReady] = React.useState(false);
   const [followReady, setFollowReady] = React.useState(false);
+  const [isLoading, setIsLoading] =  React.useState(false);
 
   const {data: session, update}:any = useSession();
   const userLoggedIn = postAuthorId === session.user._id;
@@ -168,17 +169,39 @@ const FeedSinglePost = ({isRepost, originalAuthor, originalAuthorId, originalAut
   }
 
   const CommentSection = ({comments}:Partial<singlePostProps>):React.ReactElement => {
-    const CreateComment = ()=> {
+    const CreateComment = () => {
       const comment = useInput('');
+      const newTime = new Date().toISOString();
+      const commentData = {profileImage: session.user.profileImage.url, comment: comment.value, commentAuthor: session.user.surname + ' ' + session.user.lastname, commentTime: newTime}
+
+      const handleCreateComment = async (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        setIsLoading(true)
+        try {
+          const response = await fetch(`/api/createComments/${_id}`,{
+            method: "PUT",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify(commentData)
+          }).then((response) => response.json());
+          setDisplayAlert(true)
+          setAlertMessage(response?.message)
+          setAlertType('success')
+        } catch (error) {
+          setDisplayAlert(true)
+          setAlertMessage('Something went wrong, try again later')
+          setAlertType('error')
+        }
+        setIsLoading(false)
+      }
       return (
-        <form>
+        <form onSubmit={handleCreateComment}>
           <div className='lg:h-[55px] h-[45px] relative' onSubmit={() => console.log(comment.value)}>
             <div className='absolute -left-1 -top-1'>
               <ImageAvatar size='extraSmall' profilePicture={session.user.profileImage.url}/>
             </div>
             <textarea name="" id="postMessage" className='border resize-none rounded h-full w-full lg:pl-[45px] lg:pr-8 pr-7 pl-[40px] p-2 outline-none focus:outline-none text-[13px] leading-[1.1] bg-inherit dark:placeholder:text-white' placeholder='say something...' value={comment.value} onChange={comment.onTextAreaChange}/>
             <button type='submit' className='absolute top-5 lg:top-7 right-3 z-[300]'>
-              <SendOutlined className='w-5 h-5 text-primaryGreen'/>
+              {isLoading ? <h2 className='text-sm text-primaryGreen'>...posting</h2> : <SendOutlined className='w-5 h-5 text-primaryGreen'/>}
             </button>
           </div>
         </form>
@@ -190,12 +213,12 @@ const FeedSinglePost = ({isRepost, originalAuthor, originalAuthorId, originalAut
           <button className='mb-3 text-sm'>Comments</button>
           <div className='flex gap-3 flex-col'>
             {comments && comments.length > 0 && comments.map((e:any, index:number) => (
-              <div className='lg:min-h-[35px] min-h-[30px] relative pt-[18px] border-b last:border-b-0' key={index}>
+              <div className='text-gray-500 dark:text-white lg:min-h-[35px] min-h-[30px] relative pt-[18px] border-b last:border-b-0' key={index}>
                 <div className='absolute -left-1 -top-1 flex gap-2'>
-                  <ImageAvatar size='extraSmall' profilePicture={e.commentAuthorImage}/>
+                  <ImageAvatar size='extraSmall' profilePicture={e.profileImage}/>
                   <div>
-                    <h2 className='text-xs'>{e.commentAuthor}</h2>
-                    <h2 className='text-xs'>{e.commentTime}</h2>
+                    <h2 className='text-sm capitalize'>{e.commentAuthor}</h2>
+                    <h2 className='text-xs'>{timeFormatter(e.commentTime)}</h2>
                   </div>
                 </div>
                 <p className='mt-1 lg:mt-2 h-full w-full lg:pl-[45px] pl-[40px] p-2 md:text-sm text-xs'>{e.comment}</p>
@@ -434,12 +457,14 @@ const FeedSinglePost = ({isRepost, originalAuthor, originalAuthorId, originalAut
     </React.Fragment>
   )
 }
+
 const PlainSinglePost = ({isRepost, originalAuthor, originalAuthorId, originalAuthorProfilePicture, originalPostTime, reposts, _id, postStatus, postMessage, postAuthor, postAuthorId, postAuthorProfilePicture, postImage, updatedAt, savedPosts, hashTag, comments, likes, postLocation}: Partial<singlePostProps>) => {
   const [showMenu, setShowMenu] = React.useState(false);
   const [editPost, setEditPost] = React.useState(false);
   const [showCommentSection, setShowCommentSection] = React.useState(false);
   const [postReady, setPostReady] = React.useState(false);
   const [followReady, setFollowReady] = React.useState(false);
+  const [isLoading, setIsLoading] =  React.useState(false);
 
   const {data: session, update}:any = useSession();
   const userLoggedIn = postAuthorId === session.user._id;
@@ -572,17 +597,39 @@ const PlainSinglePost = ({isRepost, originalAuthor, originalAuthorId, originalAu
   }
 
   const CommentSection = ({comments}:Partial<singlePostProps>):React.ReactElement => {
-    const CreateComment = ()=> {
+    const CreateComment = () => {
       const comment = useInput('');
+      const newTime = new Date().toISOString();
+      const commentData = {profileImage: session.user.profileImage.url, comment: comment.value, commentAuthor: session.user.surname + ' ' + session.user.lastname, commentTime: newTime}
+
+      const handleCreateComment = async (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        setIsLoading(true)
+        try {
+          const response = await fetch(`/api/createComments/${_id}`,{
+            method: "PUT",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify(commentData)
+          }).then((response) => response.json());
+          setDisplayAlert(true)
+          setAlertMessage(response?.message)
+          setAlertType('success')
+        } catch (error) {
+          setDisplayAlert(true)
+          setAlertMessage('Something went wrong, try again later')
+          setAlertType('error')
+        }
+        setIsLoading(false)
+      }
       return (
-        <form>
+        <form onSubmit={handleCreateComment}>
           <div className='lg:h-[55px] h-[45px] relative' onSubmit={() => console.log(comment.value)}>
             <div className='absolute -left-1 -top-1'>
               <ImageAvatar size='extraSmall' profilePicture={session.user.profileImage.url}/>
             </div>
             <textarea name="" id="postMessage" className='border resize-none rounded h-full w-full lg:pl-[45px] lg:pr-8 pr-7 pl-[40px] p-2 outline-none focus:outline-none text-[13px] leading-[1.1] bg-inherit dark:placeholder:text-white' placeholder='say something...' value={comment.value} onChange={comment.onTextAreaChange}/>
             <button type='submit' className='absolute top-5 lg:top-7 right-3 z-[300]'>
-              <SendOutlined className='w-5 h-5 text-primaryGreen'/>
+              {isLoading ? <h2 className='text-sm text-primaryGreen'>...posting</h2> : <SendOutlined className='w-5 h-5 text-primaryGreen'/>}
             </button>
           </div>
         </form>
@@ -594,12 +641,12 @@ const PlainSinglePost = ({isRepost, originalAuthor, originalAuthorId, originalAu
           <button className='mb-3 text-sm'>Comments</button>
           <div className='flex gap-3 flex-col'>
             {comments && comments.length > 0 && comments.map((e:any, index:number) => (
-              <div className='lg:min-h-[35px] min-h-[30px] relative pt-[18px] border-b last:border-b-0' key={index}>
+              <div className='text-gray-500 dark:text-white lg:min-h-[35px] min-h-[30px] relative pt-[18px] border-b last:border-b-0' key={index}>
                 <div className='absolute -left-1 -top-1 flex gap-2'>
-                  <ImageAvatar size='extraSmall' profilePicture={e.commentAuthorImage}/>
+                  <ImageAvatar size='extraSmall' profilePicture={e.profileImage}/>
                   <div>
-                    <h2 className='text-xs'>{e.commentAuthor}</h2>
-                    <h2 className='text-xs'>{e.commentTime}</h2>
+                    <h2 className='text-sm capitalize'>{e.commentAuthor}</h2>
+                    <h2 className='text-xs'>{timeFormatter(e.commentTime)}</h2>
                   </div>
                 </div>
                 <p className='mt-1 lg:mt-2 h-full w-full lg:pl-[45px] pl-[40px] p-2 md:text-sm text-xs'>{e.comment}</p>
@@ -617,6 +664,8 @@ const PlainSinglePost = ({isRepost, originalAuthor, originalAuthorId, originalAu
     const userAlreadyLiked = likes?.includes(session?.user._id);
     const userAlreadyRetweeted = reposts?.includes(session?.user._id);
     const userAlreadySaved = savedPosts?.includes(session?.user._id);
+
+    const [showElement, setShowElement] = React.useState(false);
 
     const repostData = {
       originalPostId: _id,
@@ -687,7 +736,36 @@ const PlainSinglePost = ({isRepost, originalAuthor, originalAuthorId, originalAu
       }
     }
 
+    const ShareElement = () => {
+      const url = 'nomeogram.com';
+      const hastag = hashTag;
+      return (
+        <div className='w-full border rounded lg:px-12 lg:py-3 px-5 py-3 relative'>
+          <CloseIconCircle className='w-6 h-6 absolute right-2 top-2 text-secondaryRed cursor-pointer' onClick={() => setShowElement(false)}/>
+          <div className='flex items-center justify-between lg:mb-6 mb-4'>
+            <h2 className='lg:text-base text-sm ml-4'>Share this post on</h2>
+          </div>
+          <div className='flex items-center lg:gap-4 gap-3'>
+            <FacebookShareButton url={url} hashtag={hashTag}>
+              <FacebookIcon size={32} round={true}/>
+            </FacebookShareButton>
+            <TwitterShareButton url={url}>
+              <TwitterIcon size={32} round={true}/>
+            </TwitterShareButton>
+            <LinkedinShareButton url={url}>
+              <LinkedinIcon size={32} round={true}/>
+            </LinkedinShareButton>
+            <WhatsappShareButton url={url}>
+              <WhatsappIcon size={32} round={true}/>
+            </WhatsappShareButton>
+          </div>
+        </div>
+      )
+    }
+
     return (
+      <React.Fragment>
+      { showElement ? <ShareElement/> :
       <div className='mt-3 flex justify-between items-center text-gray-500 dark:text-white'>
         <div className='flex gap-3 items-center'>
           <button className='flex gap-1 items-center' onClick={handleLikePost}>
@@ -709,8 +787,9 @@ const PlainSinglePost = ({isRepost, originalAuthor, originalAuthorId, originalAu
             </button>
           }
         </div>
-        <ShareForwardOutlined className='w-4 h-4 md:w-5 md:h-5 cursor-pointer' onClick={() => console.log('I shared this post')}/>
-      </div>
+        <ShareForwardOutlined className='w-4 h-4 md:w-5 md:h-5 cursor-pointer' onClick={() => setShowElement(true)}/>
+      </div> }
+      </React.Fragment>
     )
   }
 
@@ -795,4 +874,4 @@ const PlainSinglePost = ({isRepost, originalAuthor, originalAuthorId, originalAu
   )
 }
 
-export {FeedSinglePost, PlainSinglePost}
+export { FeedSinglePost, PlainSinglePost }

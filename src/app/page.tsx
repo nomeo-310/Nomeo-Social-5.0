@@ -15,7 +15,6 @@ const Home =() => {
   const [allPosts, setAllPosts] = React.useState<any[]>([]);
   const [isLoading, setIsLoading] = React.useState(false)
 
-
   const UserProfile = () => {
     return (
       <CardComponent overflow>

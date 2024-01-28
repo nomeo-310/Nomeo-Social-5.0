@@ -48,7 +48,7 @@ export interface IPost {
   hashTag:string
   postStatus: string
   postImage: { public_id: string, url: string }
-  comments:any[]
+  comments: [{profileImage: string, comment: string, commentAuthor: string, commentTime: string}]
   likes: string[]
   reposts: string[]
   isRepost: boolean
@@ -172,7 +172,7 @@ export interface singlePostProps {
   savedPosts: string[]
   hashTag: string
   postMessage: string
-  comments: any[]
+  comments: [{profileImage: string, comment: string, commentAuthor: string}]
   postLocation: string
   postStatus: string
   reposts: string[]

@@ -17,7 +17,7 @@ const PostSchema:Schema = new Schema({
   originalPostLocation: { type: String, default: ''},
   postAuthorProfilePicture: { type: String, default: '' },
   originalAuthorProfilePicture: { type: String, default: '' },
-  comments: { type: Array, default: [] },
+  comments: { type: Array, default: [{profileImage: '', comment: '', commentAuthor: '', commentTime: ''}]},
   isRepost:  { type: Boolean, default: false },
   isSavedPost:  { type: Boolean, default: false },
   isSharedPost:  { type: Boolean, default: false },

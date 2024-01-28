@@ -11,8 +11,6 @@ import { MailOutlined, MapOutlined, UserOutlinedAlt } from './IconPacks'
 const ProfileCardComponent = ():ReactElement => {
   const {data: session}:any = useSession();
 
-  console.log(session)
-
   return (
     <React.Fragment>
       <div className='flex gap-2 border-b -mx-3 p-3 items-center'>

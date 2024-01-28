@@ -655,7 +655,6 @@ const AboutSection = ({currentUser, isLoading, setUserReady}: aboutProps) => {
 }
 
 const PhotosSection = ({data}:photoProps) => {
-  console.log(data)
   return (
     <React.Fragment>
     { data && data.length > 0 ?
