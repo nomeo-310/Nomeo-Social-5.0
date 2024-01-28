@@ -2,7 +2,6 @@
 'use client'
 import React from "react";
 import useInput from "@/hooks/useInput";
-import allStates from '../../public/data/nigeriaStates.json'
 import { RadioInputComponent, InputComponent, DateInputComponent, CustomSelectComponent, TextAreaComponent } from "./InputComponents";
 import { CameraOutlined, CodeOutlined, DirectionOutlined, GamesOutlined, MovieOutlined, MusicOutlined, NFTOutlined, NewsOutlined, RestaurantOutlined, ShirtOutlined, ShoppingBagOutlined, WineGlassOutlined } from "./IconPacks";
 import { formProps } from "@/types/types";
@@ -223,6 +222,45 @@ const PageTwo = ({ formData, setFormData, setErrorMessage, setValidData }:pagePr
 }
 
 const PageThree = ({formData, setFormData, setErrorMessage, setValidData}:pageProps) => {
+  const allNigerianStates = [
+    "Abia",
+    "Adamawa",
+    "Akwa Ibom",
+    "Anambra",
+    "Bauchi",
+    "Bayelsa",
+    "Benue",
+    "Borno",
+    "Cross River",
+    "Delta",
+    "Ebonyi",
+    "Edo",
+    "Ekiti",
+    "Enugu",
+    "Abuja",
+    "Gombe",
+    "Imo",
+    "Jigawa",
+    "Kaduna",
+    "Kano",
+    "Katsina",
+    "Kebbi",
+    "Kogi",
+    "Kwara",
+    "Lagos",
+    "Nasarawa",
+    "Niger",
+    "Ogun",
+    "Ondo",
+    "Osun",
+    "Oyo",
+    "Plateau",
+    "Rivers",
+    "Sokoto",
+    "Taraba",
+    "Yobe",
+    "Zamfara"
+  ]
   const {selected, setSelected } = useInput(formData.state);
   const city = useInput(formData.city);
   const hobbies = useInput(formData.hobbies.join(','));
@@ -291,7 +329,7 @@ const PageThree = ({formData, setFormData, setErrorMessage, setValidData}:pagePr
         </div>
       </div>
       <CustomSelectComponent 
-        data={allStates}
+        data={allNigerianStates}
         flowBottom
         placeholder='state'
         title='state'
