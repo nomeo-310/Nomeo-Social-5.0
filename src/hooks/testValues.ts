@@ -5,7 +5,7 @@ const testEmailInput =(value:string)=> {
 }
 
 const testPasswordInput =(value:string)=> {
-  const passwordExpression:RegExp = /^(?=.*\d.*)(?=.*[a-zA-Z].*)(?=.*[!#$%&?].*).{8,}/
+  const passwordExpression:RegExp = /^(?=.*[a-z])(?=.*[A-Z].*)(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
   const newValue = passwordExpression.test(value);
   return newValue
 }

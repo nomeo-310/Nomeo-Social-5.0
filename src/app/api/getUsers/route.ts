@@ -7,7 +7,7 @@ export const GET = async (request: NextRequest, response: NextResponse,) => {
   await connectToDatabase();
 
   const pageNumber:number = Number(request.url.split('http://localhost:3000/api/getUsers?page=')[1]);
-  const pageSize:number = 5;
+  const pageSize:number = 6;
   const skip:number = (pageNumber - 1) * pageSize;
 
   try {

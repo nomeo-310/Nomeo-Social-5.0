@@ -658,7 +658,30 @@ const SettingsOutlined = ({className, onClick}:iconProps):React.ReactElement => 
   )
 }
 
+const ShareNodeOutlined = ({className, onClick}:iconProps):React.ReactElement => {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className={className} onClick={onClick} fill="currentColor">
+     <path d="M13.1202 17.0228L8.92129 14.7324C8.19135 15.5125 7.15261 16 6 16C3.79086 16 2 14.2091 2 12C2 9.79086 3.79086 8 6 8C7.15255 8 8.19125 8.48746 8.92118 9.26746L13.1202 6.97713C13.0417 6.66441 13 6.33707 13 6C13 3.79086 14.7909 2 17 2C19.2091 2 21 3.79086 21 6C21 8.20914 19.2091 10 17 10C15.8474 10 14.8087 9.51251 14.0787 8.73246L9.87977 11.0228C9.9583 11.3355 10 11.6629 10 12C10 12.3371 9.95831 12.6644 9.87981 12.9771L14.0788 15.2675C14.8087 14.4875 15.8474 14 17 14C19.2091 14 21 15.7909 21 18C21 20.2091 19.2091 22 17 22C14.7909 22 13 20.2091 13 18C13 17.6629 13.0417 17.3355 13.1202 17.0228ZM6 14C7.10457 14 8 13.1046 8 12C8 10.8954 7.10457 10 6 10C4.89543 10 4 10.8954 4 12C4 13.1046 4.89543 14 6 14ZM17 8C18.1046 8 19 7.10457 19 6C19 4.89543 18.1046 4 17 4C15.8954 4 15 4.89543 15 6C15 7.10457 15.8954 8 17 8ZM17 20C18.1046 20 19 19.1046 19 18C19 16.8954 18.1046 16 17 16C15.8954 16 15 16.8954 15 18C15 19.1046 15.8954 20 17 20Z"></path>
+    </svg>
+  )
+}
+
+const RepeatOutlined = ({className, onClick}:iconProps):React.ReactElement => {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className={className} onClick={onClick} fill="currentColor">
+     <path d="M6 4H21C21.5523 4 22 4.44772 22 5V12H20V6H6V9L1 5L6 1V4ZM18 20H3C2.44772 20 2 19.5523 2 19V12H4V18H18V15L23 19L18 23V20Z"></path>
+    </svg>
+  )
+}
+
+const UnfollowUserOutlined = ({className, onClick}:iconProps):React.ReactElement => {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className={className} onClick={onClick} fill="currentColor">
+     <path d="M14 14.252V16.3414C13.3744 16.1203 12.7013 16 12 16C8.68629 16 6 18.6863 6 22H4C4 17.5817 7.58172 14 12 14C12.6906 14 13.3608 14.0875 14 14.252ZM12 13C8.685 13 6 10.315 6 7C6 3.685 8.685 1 12 1C15.315 1 18 3.685 18 7C18 10.315 15.315 13 12 13ZM12 11C14.21 11 16 9.21 16 7C16 4.79 14.21 3 12 3C9.79 3 8 4.79 8 7C8 9.21 9.79 11 12 11ZM19 17.5858L21.1213 15.4645L22.5355 16.8787L20.4142 19L22.5355 21.1213L21.1213 22.5355L19 20.4142L16.8787 22.5355L15.4645 21.1213L17.5858 19L15.4645 16.8787L16.8787 15.4645L19 17.5858Z"></path>
+    </svg>
+  )
+}
 
 
 
-export {SettingsOutlined, Contacts, Refresh, Gallery, RSSFeeds, ArrowLeft, ArrowRight, RestaurantOutlined, MusicOutlined, MovieOutlined,ImageAddOutlined,DirectionOutlined, WineGlassOutlined, NFTOutlined, NewsOutlined, CodeOutlined, CameraOutlined, ContactListOutlined, GamesOutlined, ShirtOutlined, ShoppingBagOutlined, TeamOutlined, AppsOutlined,  PalletOutlined, PantoneOutlined, MapOutlined, BriefCaseOutlined, MailOutlined, SearchIcon, UserOutlinedAlt, UserForbiddenOutlined, UserForbiddenFilled, MenuIcon, CloseIcon, LongArrowRight, UserFilled, NoSignal, NotAllowed, CloseIconCircle, CheckCircleFilled, WarningFilled, InfoFilled, LightMode, DarkMode, SystemDefault, Bubble, LogOut, EyeFilled, EyeFilledOff, EditFilled, EditOutlined, MagicWandOutlined, InvertLayoutOutlined, SavedOutlined, RefreshOutlined, ListDisplayOutlined, GridDisplayOutlined, SendOutlined, ShareForwardOutlined, ShareOutlined, ReplyOutlined, LikedFilled, LikedOutlined, ImageOutlined, EarthOutlined, AddUserOutlined, FollowedUserOutlined, GroupUserOutlined, ArrowDown, ArrowUp, HashTags, AddBox, Ellipsis, Delete, CommentsOutlined, BookMarkFilled, BookMarkOutlined, MapFilled }
+export {UnfollowUserOutlined, RepeatOutlined, ShareNodeOutlined, SettingsOutlined, Contacts, Refresh, Gallery, RSSFeeds, ArrowLeft, ArrowRight, RestaurantOutlined, MusicOutlined, MovieOutlined,ImageAddOutlined,DirectionOutlined, WineGlassOutlined, NFTOutlined, NewsOutlined, CodeOutlined, CameraOutlined, ContactListOutlined, GamesOutlined, ShirtOutlined, ShoppingBagOutlined, TeamOutlined, AppsOutlined,  PalletOutlined, PantoneOutlined, MapOutlined, BriefCaseOutlined, MailOutlined, SearchIcon, UserOutlinedAlt, UserForbiddenOutlined, UserForbiddenFilled, MenuIcon, CloseIcon, LongArrowRight, UserFilled, NoSignal, NotAllowed, CloseIconCircle, CheckCircleFilled, WarningFilled, InfoFilled, LightMode, DarkMode, SystemDefault, Bubble, LogOut, EyeFilled, EyeFilledOff, EditFilled, EditOutlined, MagicWandOutlined, InvertLayoutOutlined, SavedOutlined, RefreshOutlined, ListDisplayOutlined, GridDisplayOutlined, SendOutlined, ShareForwardOutlined, ShareOutlined, ReplyOutlined, LikedFilled, LikedOutlined, ImageOutlined, EarthOutlined, AddUserOutlined, FollowedUserOutlined, GroupUserOutlined, ArrowDown, ArrowUp, HashTags, AddBox, Ellipsis, Delete, CommentsOutlined, BookMarkFilled, BookMarkOutlined, MapFilled }

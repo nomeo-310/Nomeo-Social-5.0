@@ -49,15 +49,15 @@ const ProfileCardComponent = ():ReactElement => {
           <div className='flex -mx-3 border-b'>
             <div className='flex items-center gap-3 flex-col flex-1 py-2 border-r'>
               <h2 className='text-gray-400 dark:text-white text-xs md:text-[13px] capitalize'>followers</h2>
-              <h2 className='text-gray-400 dark:text-white text-xs md:text-[13px]'>{session?.user.followers.Length}</h2>
+              <h2 className='text-gray-400 dark:text-white text-xs md:text-[13px]'>{session?.user.followers.length}</h2>
             </div>
             <div className='flex items-center gap-3 flex-col flex-1 py-2 border-r'>
               <h2 className='text-gray-400 dark:text-white text-xs md:text-[13px] capitalize'>followings</h2>
-              <h2 className='text-gray-400 dark:text-white text-xs md:text-[13px]'>{session?.user.followings.Length}</h2>
+              <h2 className='text-gray-400 dark:text-white text-xs md:text-[13px]'>{session?.user.followings.length}</h2>
             </div>
             <div className='flex items-center gap-3 flex-col flex-1 py-2'>
               <h2 className='text-gray-400 dark:text-white text-xs md:text-[13px] capitalize'>posts</h2>
-              <h2 className='text-gray-400 dark:text-white text-xs md:text-[13px]'>{session?.user.savedPosts.Length}</h2>
+              <h2 className='text-gray-400 dark:text-white text-xs md:text-[13px]'>{session?.user.createdPosts.length}</h2>
             </div>
           </div>
         </React.Fragment>

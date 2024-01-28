@@ -1,50 +1,37 @@
-
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client"
 
 import React from 'react'
 import withAuth from '@/utils/withAuth';
-import { useParams } from 'next/navigation';
+import Feeds from '@/components/Feeds';
 import ProfileLayout from '@/components/ProfileLayout';
 import CardComponent from '@/components/CardComponent';
-import Feeds from '@/components/Feeds';
-import { useSession } from 'next-auth/react';
-import { BookMarkOutlined, Contacts, FollowedUserOutlined, Gallery, GroupUserOutlined, InfoFilled, RSSFeeds, Refresh } from '@/components/IconPacks';
-import { AboutSection } from './components/PageComponents';
 import UserList from '@/components/UserList';
+import { useParams } from 'next/navigation';
+import { AboutSection, PhotosSection, SavedPostsSection } from './components/PageComponents';
+import { useSession } from 'next-auth/react';
+import { BookMarkOutlined, Contacts, FollowedUserOutlined, Gallery, GroupUserOutlined, InfoFilled, RSSFeeds, ShareNodeOutlined } from '@/components/IconPacks';
+import FriendList from '@/components/FriendList';
 
 const Profile = () => {
   const {data: session, update}:any = useSession();
-  const [currentUser, setCurrentUser] = React.useState<any>({});
-  const [userReady, setUserReady] = React.useState(false)
-  const [isLoading, setIsLoading] = React.useState(false)
+
   const params = useParams();
   const {id}:any = params;
 
-  const getCurrentUser = async () => {
-    setIsLoading(true)
-    try {
-      const response = await fetch(`/api/getSingleUser/${id}`, {
-        method: "GET",
-        headers: {"Content-Type": "application/json"},
-        cache: 'no-store'
-      })
-      const data = await response.json();
-      setCurrentUser(data);
-    } catch (error) {
-      console.log(error)
-    }
-    setIsLoading(false)
-  }
+  const [currentUser, setCurrentUser] = React.useState<any>({});
+  const [currentUserPosts, setCurrentUserPosts] = React.useState<any[]>([]);
+  const [currentUserSavedPosts, setCurrentUserSavedPosts] = React.useState<any[]>([]);
+  const [currentUserFollowers, setCurrentUserFollowers] = React.useState<any[]>([]);
+  const [currentUserFollowings, setCurrentUserFollowings] = React.useState<any[]>([]);
+  const [currentUserPostImages, setCurrentUserPostImages] = React.useState<[{public_id: string, url: string}]>([{public_id: '', url: ''}]);
+  const [userReady, setUserReady] = React.useState(false)
+  const [isLoading, setIsLoading] = React.useState(false)
 
-  React.useEffect(() => {
-    if (id) {
-      getCurrentUser();
-    }
-    }, [id])
-
+  const noProfile = currentUser.profileCreated === false;
 
   const updateCurrentSession = async () => {
-    const response = await fetch(`/api/getSingleUser/${id}`, {
+    const response = await fetch(`/api/getSingleUser/${session?.user._id}`, {
       method: "GET",
       headers: {"Content-Type": "application/json"},
       cache: 'no-store'
@@ -83,6 +70,138 @@ const Profile = () => {
     })
   }
 
+  const getCurrentUserFollowers = async () => {
+    setIsLoading(true)
+    try {
+      const response = await fetch(`/api/getFollowers/${id}`, {
+        method: "GET",
+        headers: {"Content-Type": "application/json"},
+        cache: 'no-store'
+      })
+      const data = await response.json();
+      setCurrentUserFollowers(data);
+    } catch (error) {
+      console.log(error)
+    }
+    setIsLoading(false)
+  }
+
+  const getCurrentUserFollowings = async () => {
+    setIsLoading(true)
+    try {
+      const response = await fetch(`/api/getFollowings/${id}`, {
+        method: "GET",
+        headers: {"Content-Type": "application/json"},
+        cache: 'no-store'
+      })
+      const data = await response.json();
+      setCurrentUserFollowings(data);
+    } catch (error) {
+      console.log(error)
+    }
+    setIsLoading(false)
+  }
+
+  const getCurrentUser = async () => {
+    setIsLoading(true)
+    try {
+      const response = await fetch(`/api/getSingleUser/${id}`, {
+        method: "GET",
+        headers: {"Content-Type": "application/json"},
+        cache: 'no-store'
+      })
+      const data = await response.json();
+      setCurrentUser(data);
+    } catch (error) {
+      console.log(error)
+    }
+    setIsLoading(false)
+  }
+  
+  const getAllCurrentUserPosts = async () => {
+    setIsLoading(true)
+    try {
+      const response = await fetch(`/api/getAllUserPosts/${id}`, {
+        method: "GET",
+        headers: {"Content-Type": "application/json"},
+        cache: 'no-store'
+      })
+      const data = await response.json();
+      setCurrentUserPosts(data)
+    } catch (error) {
+      console.log(error)
+    }
+    setIsLoading(false)
+  }
+
+  const getAllCurrentUserPostImages = async () => {
+    setIsLoading(true)
+    try {
+      const response = await fetch(`/api/getAllUserPostImages/${id}`, {
+        method: "GET",
+        headers: {"Content-Type": "application/json"},
+        cache: 'no-store'
+      })
+      const data = await response.json();
+      setCurrentUserPostImages(data)
+    } catch (error) {
+      console.log(error)
+    }
+    setIsLoading(false)
+  }
+
+  const getCurrentUserSavedPosts = async () => {
+    setIsLoading(true)
+    try {
+      const response = await fetch(`/api/getSavedPosts/${id}`, {
+        method: "GET",
+        headers: {"Content-Type": "application/json"},
+        cache: 'no-store'
+      })
+      const data = await response.json();
+      setCurrentUserSavedPosts(data)
+    } catch (error) {
+      console.log(error)
+    }
+    setIsLoading(false)
+  }
+
+  React.useEffect(() => {
+    if (id) {
+      getCurrentUser();
+    }
+    }, [id])
+
+  React.useEffect(() => {
+    if (id) {
+      getAllCurrentUserPosts();
+    }
+    }, [id])
+
+  React.useEffect(() => {
+    if (id) {
+      getAllCurrentUserPostImages();
+    }
+    }, [id])
+
+  React.useEffect(() => {
+    if (id) {
+      getCurrentUserSavedPosts();
+    }
+    }, [id])
+
+  React.useEffect(() => {
+    if (id) {
+      getCurrentUserFollowers();
+    }
+    }, [id])
+
+  React.useEffect(() => {
+    if (id) {
+      getCurrentUserFollowings();
+    }
+    }, [id])
+
   React.useEffect(() => {
     if (userReady) {
       updateCurrentSession();
@@ -99,7 +218,6 @@ const Profile = () => {
       {name:'followers', inactiveicon: <GroupUserOutlined className='lg:w-6 lg:h-6 w-5 h-5'/>, activeicon: <GroupUserOutlined className='lg:w-7 w-6 lg:h-7 h-6'/>}, 
       {name:'followings', inactiveicon: <FollowedUserOutlined className='lg:w-6 lg:h-6 w-5 h-5'/>, activeicon: <FollowedUserOutlined className='lg:w-7 w-6 lg:h-7 h-6'/>}, 
       {name:'saved posts', inactiveicon: <BookMarkOutlined className='lg:w-6 lg:h-6 w-5 h-5'/>, activeicon: <BookMarkOutlined className='lg:w-7 w-6 lg:h-7 h-6'/>}, 
-      {name:'retweets', inactiveicon: <Refresh className='lg:w-6 lg:h-6 w-5 h-5'/>, activeicon: <Refresh className='lg:w-7 w-6 lg:h-7 h-6'/>}
     ];
     const active = 'lg:-mx-4 -mx-4 bg-tertiaryBlue text-white px-3 lg:text-lg text-base py-[5px]';
     const inactive = 'lg:text-base text-sm py-[3px] text-gray-500 dark:text-white'
@@ -122,35 +240,39 @@ const Profile = () => {
       </div>
     )
   }
+
+  const MainPageProfileNav = () => {
+    return (
+      <React.Fragment>
+        {currentUser?._id === session?.user._id && 
+          <CardComponent overflow>
+            <ProfileNavigation/>
+          </CardComponent>
+        }
+      </React.Fragment>
+    )
+  }
+
+  const ProfileContent = () => {
+    return (
+      <>
+        {activeTab === 'feeds' && <Feeds data={currentUserPosts}/>}
+        {activeTab === 'about' && <AboutSection currentUser={currentUser} isLoading={isLoading} setUserReady={setUserReady}/>}
+        {activeTab === 'photos' && <PhotosSection data={currentUserPostImages}/>}
+        {activeTab === 'followers' && <FriendList data={currentUserFollowers} emptyDataText='You have no followers yet' isLoading={isLoading}/>}
+        {activeTab === 'followings' && <FriendList data={currentUserFollowings} emptyDataText='You are following anyone yet' isLoading={isLoading}/>}
+        {activeTab === 'saved posts' && <SavedPostsSection data={currentUserSavedPosts}/>}
+        {activeTab === 'userlist' && <div className='lg:hidden'><UserList/></div>}
+      </>
+    )
+  }
+
   return (
     <ProfileLayout 
-      leftSection={
-        <React.Fragment>
-          {currentUser?._id === session?.user._id && 
-            <CardComponent overflow>
-              <ProfileNavigation/>
-            </CardComponent>
-          }
-        </React.Fragment>
-      } 
-      middleSection={
-        <>
-          {activeTab === 'feeds' && <Feeds data={[]}/>}
-          {activeTab === 'about' && <AboutSection currentUser={currentUser} isLoading={isLoading} setUserReady={setUserReady}/>}
-          {activeTab === 'photos' && <CardComponent>Photos</CardComponent>}
-          {activeTab === 'followers' && <CardComponent>Followers</CardComponent>}
-          {activeTab === 'followings' && <CardComponent>Followings</CardComponent>}
-          {activeTab === 'saved posts' && <CardComponent>Saved Posts</CardComponent>}
-          {activeTab === 'retweets' && <CardComponent>Retweets</CardComponent>}
-          {activeTab === 'userlist' && <div className='lg:hidden'><UserList/></div>}
-        </>
-      }
+      leftSection={<MainPageProfileNav/>} 
+      middleSection={<ProfileContent/>}
       mobileProfileNavigation={<ProfileNavigation/>}
-      rightSection={
-        <React.Fragment>
-          <UserList/>
-        </React.Fragment>
-      }
+      rightSection={<React.Fragment>{ noProfile ? '' : <UserList/> }</React.Fragment>}
       currentUser={currentUser}
       getCurrentUser={getCurrentUser}
       setUserReady={setUserReady}

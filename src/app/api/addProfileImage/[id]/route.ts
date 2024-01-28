@@ -2,11 +2,8 @@ import User from "@/models/User";
 import connectToDatabase from "@/libs/mongodb";
 import { NextResponse, NextRequest } from "next/server";
 import cloudinary from "@/utils/cloudinary";
+import { imageProps } from "@/types/types";
 
-interface imageProps {
-  public_id: string
-  url:string
-}
 
 
 export const PUT = async (request: NextRequest) => {

@@ -2,13 +2,16 @@ import Image from 'next/image';
 import {ReactElement} from 'react';
 
 interface avatarProps {
-    size: 'small' | 'medium' | 'large' | 'extraLarge' | 'extraSmall'
+    size: 'small' | 'medium' | 'large' | 'extraLarge' | 'extraSmall' | 'extremelySmall'
     profilePicture:any
     circular?:boolean
 }
 
 const ImageAvatar = ({size, profilePicture, circular}:avatarProps):ReactElement => {
     const avatarSize =(size:string)=> {
+        if (size === 'extremelySmall')  {
+            return `relative w-[30px] h-[30px] md:w-[32px] md:h-[32px] flex justify-center items-center overflow-hidden ${circular ? 'rounded-full': 'rounded'} shadow`
+        }
         if (size === 'extraSmall')  {
             return `relative w-[35px] h-[35px] md:w-[40px] md:h-[40px] flex justify-center items-center overflow-hidden ${circular ? 'rounded-full': 'rounded'} shadow`
         }

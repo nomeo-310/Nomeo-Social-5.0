@@ -30,9 +30,6 @@ const ProfileLayout = ({leftSection, middleSection, rightSection, mobileProfileN
 
   const noProfile = currentUser.profileCreated === false;
   const userLoggedIn = currentUser?._id === session?.user._id;
-
-  console.log(noProfile)
-  console.log(userLoggedIn)
   
   const Navigation =()=> {
     const [open, setOpen] = React.useState<boolean>(false);

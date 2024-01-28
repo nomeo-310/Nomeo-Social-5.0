@@ -1,7 +1,5 @@
 import React from 'react'
 import CardComponent from './CardComponent';
-import Pagination from './Pagination';
-import { useSession } from 'next-auth/react'
 import ImageAvatar from './ImageAvatar';
 import Link from 'next/link';
 import { FullScreenLoading } from './LoadingAnimation';
@@ -15,35 +13,13 @@ type userProps = {
   occupation: string
 }
 
-const UserList = () => {
-  const {data: session}  = useSession();
-  const [currentPage, setCurrentPage] = React.useState<number>(1)
-  const [users, setUsers] = React.useState<any[]>([]);
-  const [totalPages, setTotalPages] = React.useState<number>(1)
-  const [isLoading, setIsLoading] = React.useState(false)
+type friendListProps = {
+  data: any[]
+  isLoading: boolean
+  emptyDataText: string
+}
 
-  const getAllUsers = async (page:number) => {
-    setIsLoading(true)
-    try {
-      const response = await fetch(`/api/getUsers?page=${page}`, {
-        method: "GET",
-        headers: {"Content-Type": "application/json"},
-        cache: 'no-store'
-      })
-      const data:any = await response.json();
-      setUsers(data?.users)
-      setTotalPages(data?.totalPages);
-    } catch (error) {
-      console.log(error)
-    }
-    setIsLoading(false)
-  }
-
-  React.useEffect(() => {
-    if (session?.user) {
-      getAllUsers(currentPage);
-    }
-  }, [currentPage, session?.user])
+const FriendList = ({data, isLoading, emptyDataText}:friendListProps) => {
 
   const User = ({profilePicture, username, city, state, _id, occupation}:userProps) => {
     return (
@@ -64,9 +40,10 @@ const UserList = () => {
     <React.Fragment>
       { isLoading ? <FullScreenLoading spinnerSize='70' minHeight='lg:min-h-[590px] min-h-[600px]'/> : 
         <React.Fragment>
+          {data && data.length > 0 ? 
           <CardComponent noPadding>
             <div className='min-h-[25rem] py-1'>
-              {users && users.length > 0 && users.map((i:any, index:number) => (
+              { data.map((i:any, index:number) => (
                 <User
                   key={`user_${index}`}
                   profilePicture={i.profileImage.url}
@@ -78,12 +55,15 @@ const UserList = () => {
                 />
               ))}
             </div>
+          </CardComponent> :
+          <CardComponent>
+            <h2 className='lg:text-base text-sm'>{emptyDataText}</h2>
           </CardComponent>
-          <Pagination currentPage={currentPage} totalPages={totalPages} setCurrentPage={setCurrentPage}/>
+          }
         </React.Fragment>
       }
     </React.Fragment>
   )
 }
 
-export default UserList
+export default FriendList

@@ -20,7 +20,7 @@ const CreateAccount = () => {
   }
 
   return (
-    <>
+    <React.Fragment>
       {status === 'loading' ? <FullScreenLoading spinnerSize='90'/> :
       <div className="w-full h-screen items-center justify-center overflow-hidden flex">
         <ThemeToggler className='fixed top-3 left-3 z-[4000] p-1 rounded border border-white' iconStyle='text-white'/>
@@ -39,7 +39,7 @@ const CreateAccount = () => {
           />
         }
       </div>}
-    </>
+    </React.Fragment>
   )
 }
 

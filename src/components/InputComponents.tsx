@@ -41,8 +41,8 @@ const InputComponent = ({marginBottom, title, type, id, placeholder, value, onCh
       <h2 className='ml-2 mb-[3px] text-sm capitalize'>{title}</h2>
       <div className='relative'>
         {type === 'password' ?
-          <input type={inputType} name="" id={id} className='border text-sm outline-none focus:outline-none w-full lg:p-[10px] p-2 rounded' placeholder={placeholder} value={value} onChange={onChange} autoComplete='off'/> :
-          <input type={type} name="" id={id} className='border text-sm outline-none focus:outline-none w-full lg:p-[10px] p-2 rounded' placeholder={placeholder} value={value} onChange={onChange} autoComplete='off'/>
+          <input type={inputType} name="" id={id} className='border text-sm outline-none focus:outline-none w-full lg:p-[10px] p-2 rounded bg-inherit' placeholder={placeholder} value={value} onChange={onChange} autoComplete='off'/> :
+          <input type={type} name="" id={id} className='border text-sm outline-none focus:outline-none w-full lg:p-[10px] p-2 rounded bg-inherit' placeholder={placeholder} value={value} onChange={onChange} autoComplete='off'/>
         }
         <div className={`absolute top-[9px] right-3 ${type === 'password' ? 'flex' : 'hidden'}`}>
           {inputType !== 'password' ? <EyeFilled className=' lg:w-6 w-5 lg:h-6 h-5 cursor-pointer' onClick={() => setInputType('password')}/> :

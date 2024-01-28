@@ -31,11 +31,12 @@ const UserSchema:Schema = new Schema({
   state: { type: String, default: ''},
   bio:{ type: String, default: ''},
   createdPosts: {type: Array, default: []},
+  sharedPosts: {type: Array, default: []},
   interests: {type: Array, default: []}
 }, {timestamps: true}); 
 
 
-mongoose.models = {};
+(mongoose.models as any) = {};
 
 const User = mongoose.model('User', UserSchema);
 

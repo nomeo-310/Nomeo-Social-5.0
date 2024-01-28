@@ -1,8 +1,10 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+
 import React from 'react'
 import Image from 'next/image'
 import { useSession } from 'next-auth/react'
 import CardComponent from '@/components/CardComponent'
-import { CameraOutlined, CheckCircleFilled, CloseIconCircle, CodeOutlined, DirectionOutlined, Ellipsis, GamesOutlined, ImageAddOutlined, MovieOutlined, MusicOutlined, NFTOutlined, NewsOutlined, RestaurantOutlined, ShirtOutlined, ShoppingBagOutlined, WineGlassOutlined } from '@/components/IconPacks'
+import { AddUserOutlined, CameraOutlined, CheckCircleFilled, CloseIconCircle, CodeOutlined, DirectionOutlined, Ellipsis, GamesOutlined, ImageAddOutlined, MovieOutlined, MusicOutlined, NFTOutlined, NewsOutlined, RestaurantOutlined, ShirtOutlined, ShoppingBagOutlined, UnfollowUserOutlined, WineGlassOutlined } from '@/components/IconPacks'
 import ImageAvatar from '@/components/ImageAvatar'
 import { FullScreenLoading } from '@/components/LoadingAnimation'
 import { Alert } from '@/components/Notifications'
@@ -12,33 +14,25 @@ import useInput from '@/hooks/useInput'
 import allState from '../../../../../public/data/nigeriaStates.json';
 import { ageCalculator } from '@/hooks/ageCalculator'
 import { birthayGenerator } from '@/hooks/birthdayGenerator'
+import { aboutProps, itemProp, itemsProps } from '@/types/types'
+import { timeFormatter } from '@/hooks/timeFormatter'
+import { PlainSinglePost } from '@/components/SinglePost'
 
-
-type Props = {
-  currentUser: any
-  isLoading: boolean
-  setUserReady: React.Dispatch<React.SetStateAction<boolean>>
+interface photoProps {
+  data: [{public_id: string, url: string}]
 }
 
-type itemProp = {
-  onClick: () => void
-  itemName: string
+interface savedPostProps {
+  data: any[]
 }
 
-interface itemsProps {
-  id: string
-  checkedItem: string
-  name: string
-  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void
-  checked: boolean
-  icon: React.ReactNode
-}
 
-const AboutSection = ({currentUser, isLoading, setUserReady}: Props) => {
+const AboutSection = ({currentUser, isLoading, setUserReady}: aboutProps) => {
   
     const {data: session}:any = useSession();
     const userLoggedIn = currentUser?._id === session.user?._id;
     const profileCreated = currentUser?.profileCreated === true;
+    const alreadyFollowing = currentUser?.followers && currentUser?.followers.includes(session.user?._id)
 
     const [editProfile, setEditProfile] = React.useState(false);
 
@@ -228,6 +222,27 @@ const AboutSection = ({currentUser, isLoading, setUserReady}: Props) => {
       setLoading(false)
     }
 
+    const handleFollowUser = async () => {
+      try {
+        const response = await fetch(`/api/addFollower/${session?.user._id}`,{
+          method: "PUT",
+          headers: {"Content-Type": "application/json"},
+          body: JSON.stringify({followId: currentUser?._id})
+        }).then((response) => response.json());
+        setSubmitSuccess(true)
+        setDisplayAlert(true)
+        setAlertMessage(response?.message)
+        setAlertType('success')
+      } catch (error) {
+        console.log(error)
+        setSubmitSuccess(false)
+        setDisplayAlert(true)
+        setAlertMessage('Something went wrong, try again later')
+        setAlertType('error')
+      }
+      setLoading(false)
+    }
+
     const handleCreateCoverImage = async (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault();
       setLoading(true)
@@ -341,7 +356,7 @@ const AboutSection = ({currentUser, isLoading, setUserReady}: Props) => {
         displayAlert={displayAlert} 
         onClick={submitSuccess ? () => { setUserReady(true), setDisplayAlert(false) } : () => setDisplayAlert(false)}
       />
-      { isLoading ? <FullScreenLoading spinnerSize='70' minHeight='lg:min-h-[590px] min-h-[500px] ' /> :
+      { isLoading ? <FullScreenLoading spinnerSize='70' minHeight='lg:min-h-[590px] min-h-[600px]' /> :
         <React.Fragment>
           {/* image header start here*/}
           {editProfile && 
@@ -376,11 +391,17 @@ const AboutSection = ({currentUser, isLoading, setUserReady}: Props) => {
                 <>
                   {!editProfile && 
                     <>
-                    {currentUser.coverImage?.url === '' ?
-                    <Image src='/images/defaultCoverImage.jpg' alt="default_banner" className='w-full object-cover' fill/> :
-                    <Image src={currentUser.coverImage?.url} alt="default_banner" className='w-full object-cover' fill/>
+                    { currentUser.coverImage?.url === '' ?
+                      <Image src='/images/defaultCoverImage.jpg' alt="default_banner" className='w-full object-cover' fill/> :
+                      <Image src={currentUser.coverImage?.url} alt="default_banner" className='w-full object-cover' fill/>
                     }
                     </>
+                  }
+                  { !userLoggedIn &&
+                    <button className='absolute bottom-3 right-3 z-[1500] bg-tertiaryBlue text-white px-3 py-1 rounded text-sm flex items-center gap-1' onClick={handleFollowUser}>
+                      {alreadyFollowing ? <UnfollowUserOutlined className='w-[18px] h-[18px]'/> : <AddUserOutlined className='w-[18px] h-[18px]'/> }
+                      {alreadyFollowing ? <h2>Unfollow User</h2> : <h2>Follow User</h2> }
+                    </button>
                   }
                 </>
               }
@@ -633,4 +654,41 @@ const AboutSection = ({currentUser, isLoading, setUserReady}: Props) => {
   )
 }
 
-export {AboutSection};
+const PhotosSection = ({data}:photoProps) => {
+  console.log(data)
+  return (
+    <React.Fragment>
+    { data && data.length > 0 ?
+      <div className='w-full grid grid-cols-2 items-start justify-start gap-3 overflow-hidden'>
+        {data.map((item:any, index:number) => (
+          <div className='w-full' key={item._id}>
+            <div className='relative w-full rounded overflow-hidden h-[12rem] flex items-center justify-center'>
+              <Image src={item.postImage.url} fill className='object-cover' alt={`postImage_${index}`}/>
+            </div>
+            <h2 className='mt-1'>{timeFormatter(item.createdAt)}</h2>
+          </div>
+          ))}
+      </div> :
+      <CardComponent><h2 className='lg:text-base text-sm'>You have no photos yet</h2></CardComponent>
+    }
+    </React.Fragment>
+  )
+}
+
+const SavedPostsSection = ({data}:savedPostProps) => {
+  return (
+    <React.Fragment>
+      { data && data.length > 0 ? 
+        <React.Fragment>
+          { data.map((item:any, index:number) => (
+            <PlainSinglePost key={index} {...item}/>
+            ))
+          }  
+        </React.Fragment> :
+        <CardComponent><h2 className='lg:text-base text-sm'>You have not saved any posts yet</h2></CardComponent>
+      }
+    </React.Fragment>
+  )
+}
+
+export { AboutSection, PhotosSection, SavedPostsSection };

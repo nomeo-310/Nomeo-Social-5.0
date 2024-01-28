@@ -2,11 +2,8 @@ import User from "@/models/User";
 import connectToDatabase from "@/libs/mongodb";
 import bcrypt from "bcryptjs";
 import { NextResponse, NextRequest } from "next/server";
+import { registerProps } from "@/types/types";
 
-interface registerProps {
-  email: string
-  password: string
-}
 
 export const POST = async (request: NextRequest) => {
   const { email, password }:registerProps = await request.json();

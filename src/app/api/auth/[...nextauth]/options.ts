@@ -3,7 +3,6 @@ import bcrypt from 'bcryptjs'
 import CredentialsProvider from "next-auth/providers/credentials";
 import User from "@/models/User";
 import connectToDatabase from "@/libs/mongodb";
-import { NextResponse } from "next/server";
 
 
 export const options:NextAuthOptions = {
@@ -22,7 +21,7 @@ export const options:NextAuthOptions = {
           if (user) {
             const passwordIsCorrect = await bcrypt.compare(credentials.password, user.password)
             if (passwordIsCorrect) {
-              const newData = {
+              const newData:any = {
                 _id: user._id,
                 username:user.username,
                 surname: user.surname,

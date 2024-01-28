@@ -1,5 +1,4 @@
 import React from 'react'
-import CardComponent from './CardComponent';
 import { ArrowLeft, ArrowRight } from './IconPacks';
 
 type paginationProps = {
@@ -26,7 +25,7 @@ const Pagination = ({currentPage, totalPages, setCurrentPage}:paginationProps) =
   const PaginationButton = ({onClick, disabled, nextOrPrevious, displayText, icon, next, currentPage}:paginationButtonProps ) => {
 
     return(
-      <button disabled={disabled} onClick={onClick} className={`rounded ${nextOrPrevious ? 'py-1 px-2 text-white bg-tertiaryBlue flex items-center gap-2' : 'lg:w-8 lg:h-8 w-6 h-6 flex items-center justify-center'} ${next ? 'flex-row-reverse' : ''} ${!nextOrPrevious && currentPage ? 'bg-tertiaryBlue text-white' : ''} lg:text-[14px] text-[13px] leading-normal`}>
+      <button disabled={disabled} onClick={onClick} className={`rounded ${nextOrPrevious ? 'py-1 px-2 text-white bg-tertiaryBlue flex items-center gap-2' : 'lg:w-7 lg:h-7 w-5 h-5 flex items-center justify-center'} ${next ? 'flex-row-reverse' : ''} ${!nextOrPrevious && currentPage ? 'bg-tertiaryBlue text-white' : ''} lg:text-[13px] text-[12px] leading-normal`}>
         {icon}
         {displayText}
       </button>
@@ -87,9 +86,7 @@ const Pagination = ({currentPage, totalPages, setCurrentPage}:paginationProps) =
   return (
     <div className="flex justify-center items-center gap-3">
       <>
-        <PreviousButton/>
-        {renderPagination()}
-        <NextButton/>
+        <PreviousButton/> {renderPagination()} <NextButton/>
       </>
     </div>
   )
