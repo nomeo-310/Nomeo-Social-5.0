@@ -78,8 +78,10 @@ const Profile = () => {
         headers: {"Content-Type": "application/json"},
         cache: 'no-store'
       })
-      const data = await response.json();
-      setCurrentUserFollowers(data);
+      if (response) {
+        const data = await response.json();
+        setCurrentUserFollowers(data);
+      }
     } catch (error) {
       console.log(error)
     }
@@ -94,8 +96,10 @@ const Profile = () => {
         headers: {"Content-Type": "application/json"},
         cache: 'no-store'
       })
-      const data = await response.json();
-      setCurrentUserFollowings(data);
+      if (response) {
+        const data = await response.json();
+        setCurrentUserFollowings(data);
+      }
     } catch (error) {
       console.log(error)
     }
@@ -126,8 +130,10 @@ const Profile = () => {
         headers: {"Content-Type": "application/json"},
         cache: 'no-store'
       })
-      const data = await response.json();
-      setCurrentUserPosts(data)
+      if (response) {
+        const data = await response.json();
+        setCurrentUserPosts(data)
+      }
     } catch (error) {
       console.log(error)
     }
@@ -142,8 +148,10 @@ const Profile = () => {
         headers: {"Content-Type": "application/json"},
         cache: 'no-store'
       })
-      const data = await response.json();
-      setCurrentUserPostImages(data)
+      if (response) {
+        const data = await response.json();
+        setCurrentUserPostImages(data)
+      }
     } catch (error) {
       console.log(error)
     }
@@ -158,8 +166,10 @@ const Profile = () => {
         headers: {"Content-Type": "application/json"},
         cache: 'no-store'
       })
-      const data = await response.json();
-      setCurrentUserSavedPosts(data)
+      if (response) {
+        const data = await response.json();
+        setCurrentUserSavedPosts(data)
+      }
     } catch (error) {
       console.log(error)
     }
@@ -256,13 +266,13 @@ const Profile = () => {
   const ProfileContent = () => {
     return (
       <>
-        {activeTab === 'feeds' && <Feeds data={currentUserPosts}/>}
-        {activeTab === 'about' && <AboutSection currentUser={currentUser} isLoading={isLoading} setUserReady={setUserReady}/>}
-        {activeTab === 'photos' && <PhotosSection data={currentUserPostImages}/>}
-        {activeTab === 'followers' && <FriendList data={currentUserFollowers} emptyDataText='You have no followers yet' isLoading={isLoading}/>}
-        {activeTab === 'followings' && <FriendList data={currentUserFollowings} emptyDataText='You are following anyone yet' isLoading={isLoading}/>}
-        {activeTab === 'saved posts' && <SavedPostsSection data={currentUserSavedPosts}/>}
-        {activeTab === 'userlist' && <div className='lg:hidden'><UserList/></div>}
+        { activeTab === 'feeds' && <Feeds data={currentUserPosts}/> }
+        { activeTab === 'about' && <AboutSection currentUser={currentUser} isLoading={isLoading} setUserReady={setUserReady}/> }
+        { activeTab === 'photos' && <PhotosSection data={currentUserPostImages}/> }
+        { activeTab === 'followers' && <FriendList data={currentUserFollowers} emptyDataText='You have no followers yet' isLoading={isLoading}/> }
+        { activeTab === 'followings' && <FriendList data={currentUserFollowings} emptyDataText='You are following anyone yet' isLoading={isLoading}/> }
+        { activeTab === 'saved posts' && <SavedPostsSection data={currentUserSavedPosts}/> }
+        { activeTab === 'userlist' && <div className='lg:hidden'><UserList/></div> }
       </>
     )
   }
