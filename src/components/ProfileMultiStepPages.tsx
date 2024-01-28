@@ -8,6 +8,7 @@ import { formProps } from "@/types/types";
 import { birthayGenerator } from "@/hooks/birthdayGenerator";
 import { ageCalculator } from "@/hooks/ageCalculator";
 import { testPhoneNumberInput } from "@/hooks/testValues";
+import { allNigerianStates } from "../../public/data/allNigerianSAtate";
 
 interface itemsProps {
   id: string
@@ -222,45 +223,6 @@ const PageTwo = ({ formData, setFormData, setErrorMessage, setValidData }:pagePr
 }
 
 const PageThree = ({formData, setFormData, setErrorMessage, setValidData}:pageProps) => {
-  const allNigerianStates = [
-    "Abia",
-    "Adamawa",
-    "Akwa Ibom",
-    "Anambra",
-    "Bauchi",
-    "Bayelsa",
-    "Benue",
-    "Borno",
-    "Cross River",
-    "Delta",
-    "Ebonyi",
-    "Edo",
-    "Ekiti",
-    "Enugu",
-    "Abuja",
-    "Gombe",
-    "Imo",
-    "Jigawa",
-    "Kaduna",
-    "Kano",
-    "Katsina",
-    "Kebbi",
-    "Kogi",
-    "Kwara",
-    "Lagos",
-    "Nasarawa",
-    "Niger",
-    "Ogun",
-    "Ondo",
-    "Osun",
-    "Oyo",
-    "Plateau",
-    "Rivers",
-    "Sokoto",
-    "Taraba",
-    "Yobe",
-    "Zamfara"
-  ]
   const {selected, setSelected } = useInput(formData.state);
   const city = useInput(formData.city);
   const hobbies = useInput(formData.hobbies.join(','));

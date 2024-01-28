@@ -11,12 +11,12 @@ import { Alert } from '@/components/Notifications'
 import { useNotifications } from '@/hooks/useNotifications'
 import { CustomSelectComponent, DateInputComponent, InputComponent, RadioInputComponent, TextAreaComponent } from '@/components/InputComponents'
 import useInput from '@/hooks/useInput'
-import allState from '../../../../../public/data/nigeriaStates.json';
 import { ageCalculator } from '@/hooks/ageCalculator'
 import { birthayGenerator } from '@/hooks/birthdayGenerator'
 import { aboutProps, itemProp, itemsProps } from '@/types/types'
 import { timeFormatter } from '@/hooks/timeFormatter'
 import { PlainSinglePost } from '@/components/SinglePost'
+import { allNigerianStates } from '../../../../../public/data/allNigerianSAtate'
 
 interface photoProps {
   data: [{public_id: string, url: string}]
@@ -538,7 +538,7 @@ const AboutSection = ({currentUser, isLoading, setUserReady}: aboutProps) => {
                     onChange={newBirthDate.onValueChange}
                   />
                   <CustomSelectComponent 
-                    data={allState} 
+                    data={allNigerianStates} 
                     title='state' 
                     placeholder='state'
                     selected={newState.selected}

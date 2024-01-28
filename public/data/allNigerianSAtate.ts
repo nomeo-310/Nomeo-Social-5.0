@@ -1,4 +1,4 @@
-[
+export const allNigerianStates = [
   "Abia",
   "Adamawa",
   "Akwa Ibom",
