@@ -354,10 +354,10 @@ const PageFour = ({formData, setFormData }:partialPageProps) => {
   },[item_1.value, item_2.value, item_3.value, item_4.value, setFormData]);
 
   React.useEffect(() => {
-    if (bio.value) {
+    if (bio?.value) {
       setFormData({...formData, bio: bio.value, profileCreated: true})
     }
-    }, [bio.value, setFormData ]);
+    }, [bio?.value, setFormData ]);
 
   return (
     <div className=''>
@@ -367,7 +367,7 @@ const PageFour = ({formData, setFormData }:partialPageProps) => {
         placeholder='write something about yourself, possibly a quote you love'
         name='bio'
         marginBottom
-        value={bio.value}
+        value={bio?.value}
         onTextChange={bio.onTextAreaChange}
         maxHeight='lg:h-[170px] h-[190px]'
       />
