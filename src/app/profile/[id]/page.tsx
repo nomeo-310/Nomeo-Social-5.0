@@ -28,7 +28,7 @@ const Profile = () => {
   const [userReady, setUserReady] = React.useState(false)
   const [isLoading, setIsLoading] = React.useState(false)
 
-  const noProfile = currentUser.profileCreated === false;
+  const noProfile = currentUser?.profileCreated === false;
 
   const updateCurrentSession = async () => {
     const response = await fetch(`/api/getSingleUser/${session?.user._id}`, {
