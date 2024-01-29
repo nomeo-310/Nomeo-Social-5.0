@@ -391,9 +391,9 @@ const AboutSection = ({currentUser, isLoading, setUserReady}: aboutProps) => {
                 <>
                   {!editProfile && 
                     <>
-                    { currentUser.coverImage?.url === '' ?
+                    { currentUser?.coverImage?.url === '' ?
                       <Image src='/images/defaultCoverImage.jpg' alt="default_banner" className='w-full object-cover' fill/> :
-                      <Image src={currentUser.coverImage?.url} alt="default_banner" className='w-full object-cover' fill/>
+                      <Image src={currentUser?.coverImage?.url} alt="default_banner" className='w-full object-cover' fill/>
                     }
                     </>
                   }
@@ -435,7 +435,7 @@ const AboutSection = ({currentUser, isLoading, setUserReady}: aboutProps) => {
                 <>
                   { !editCoverImage &&
                     <div className="absolute left-3 top-3">
-                      <ImageAvatar size='large' profilePicture={currentUser.profileImage?.url} />
+                      <ImageAvatar size='large' profilePicture={currentUser?.profileImage?.url} />
                     </div>
                   }
                 </>
@@ -454,7 +454,7 @@ const AboutSection = ({currentUser, isLoading, setUserReady}: aboutProps) => {
                         name='bio'
                         placeholder='write anything about yourself or a quote'
                         /> :
-                      <p className='lg:text-sm text-xs italic text-gray-400 dark:text-white'>{currentUser.bio}... {currentUser.username}</p>
+                      <p className='lg:text-sm text-xs italic text-gray-400 dark:text-white'>{currentUser?.bio}... {currentUser?.username}</p>
                     }
                   </div>
                 }
