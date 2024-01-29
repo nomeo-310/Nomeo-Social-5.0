@@ -70,41 +70,41 @@ const Profile = () => {
     })
   }
 
-  const getCurrentUserFollowers = async () => {
-    setIsLoading(true)
-    try {
-      const response = await fetch(`/api/getFollowers/${id}`, {
-        method: "GET",
-        headers: {"Content-Type": "application/json"},
-        cache: 'no-store'
-      })
-      if (response) {
-        const data = await response.json();
-        setCurrentUserFollowers(data);
-      }
-    } catch (error) {
-      console.log(error)
-    }
-    setIsLoading(false)
-  }
+  // const getCurrentUserFollowers = async () => {
+  //   setIsLoading(true)
+  //   try {
+  //     const response = await fetch(`/api/getFollowers/${id}`, {
+  //       method: "GET",
+  //       headers: {"Content-Type": "application/json"},
+  //       cache: 'no-store'
+  //     })
+  //     if (response) {
+  //       const data = await response.json();
+  //       setCurrentUserFollowers(data);
+  //     }
+  //   } catch (error) {
+  //     console.log(error)
+  //   }
+  //   setIsLoading(false)
+  // }
 
-  const getCurrentUserFollowings = async () => {
-    setIsLoading(true)
-    try {
-      const response = await fetch(`/api/getFollowings/${id}`, {
-        method: "GET",
-        headers: {"Content-Type": "application/json"},
-        cache: 'no-store'
-      })
-      if (response) {
-        const data = await response.json();
-        setCurrentUserFollowings(data);
-      }
-    } catch (error) {
-      console.log(error)
-    }
-    setIsLoading(false)
-  }
+  // const getCurrentUserFollowings = async () => {
+  //   setIsLoading(true)
+  //   try {
+  //     const response = await fetch(`/api/getFollowings/${id}`, {
+  //       method: "GET",
+  //       headers: {"Content-Type": "application/json"},
+  //       cache: 'no-store'
+  //     })
+  //     if (response) {
+  //       const data = await response.json();
+  //       setCurrentUserFollowings(data);
+  //     }
+  //   } catch (error) {
+  //     console.log(error)
+  //   }
+  //   setIsLoading(false)
+  // }
 
   const getCurrentUser = async () => {
     setIsLoading(true)
@@ -122,59 +122,59 @@ const Profile = () => {
     setIsLoading(false)
   }
   
-  const getAllCurrentUserPosts = async () => {
-    setIsLoading(true)
-    try {
-      const response = await fetch(`/api/getAllUserPosts/${id}`, {
-        method: "GET",
-        headers: {"Content-Type": "application/json"},
-        cache: 'no-store'
-      })
-      if (response) {
-        const data = await response.json();
-        setCurrentUserPosts(data)
-      }
-    } catch (error) {
-      console.log(error)
-    }
-    setIsLoading(false)
-  }
+  // const getAllCurrentUserPosts = async () => {
+  //   setIsLoading(true)
+  //   try {
+  //     const response = await fetch(`/api/getAllUserPosts/${id}`, {
+  //       method: "GET",
+  //       headers: {"Content-Type": "application/json"},
+  //       cache: 'no-store'
+  //     })
+  //     if (response) {
+  //       const data = await response.json();
+  //       setCurrentUserPosts(data)
+  //     }
+  //   } catch (error) {
+  //     console.log(error)
+  //   }
+  //   setIsLoading(false)
+  // }
 
-  const getAllCurrentUserPostImages = async () => {
-    setIsLoading(true)
-    try {
-      const response = await fetch(`/api/getAllUserPostImages/${id}`, {
-        method: "GET",
-        headers: {"Content-Type": "application/json"},
-        cache: 'no-store'
-      })
-      if (response) {
-        const data = await response.json();
-        setCurrentUserPostImages(data)
-      }
-    } catch (error) {
-      console.log(error)
-    }
-    setIsLoading(false)
-  }
+  // const getAllCurrentUserPostImages = async () => {
+  //   setIsLoading(true)
+  //   try {
+  //     const response = await fetch(`/api/getAllUserPostImages/${id}`, {
+  //       method: "GET",
+  //       headers: {"Content-Type": "application/json"},
+  //       cache: 'no-store'
+  //     })
+  //     if (response) {
+  //       const data = await response.json();
+  //       setCurrentUserPostImages(data)
+  //     }
+  //   } catch (error) {
+  //     console.log(error)
+  //   }
+  //   setIsLoading(false)
+  // }
 
-  const getCurrentUserSavedPosts = async () => {
-    setIsLoading(true)
-    try {
-      const response = await fetch(`/api/getSavedPosts/${id}`, {
-        method: "GET",
-        headers: {"Content-Type": "application/json"},
-        cache: 'no-store'
-      })
-      if (response) {
-        const data = await response.json();
-        setCurrentUserSavedPosts(data)
-      }
-    } catch (error) {
-      console.log(error)
-    }
-    setIsLoading(false)
-  }
+  // const getCurrentUserSavedPosts = async () => {
+  //   setIsLoading(true)
+  //   try {
+  //     const response = await fetch(`/api/getSavedPosts/${id}`, {
+  //       method: "GET",
+  //       headers: {"Content-Type": "application/json"},
+  //       cache: 'no-store'
+  //     })
+  //     if (response) {
+  //       const data = await response.json();
+  //       setCurrentUserSavedPosts(data)
+  //     }
+  //   } catch (error) {
+  //     console.log(error)
+  //   }
+  //   setIsLoading(false)
+  // }
 
   React.useEffect(() => {
     if (id) {
@@ -182,35 +182,35 @@ const Profile = () => {
     }
     }, [id])
 
-  React.useEffect(() => {
-    if (id) {
-      getAllCurrentUserPosts();
-    }
-    }, [id])
+  // React.useEffect(() => {
+  //   if (id) {
+  //     getAllCurrentUserPosts();
+  //   }
+  //   }, [id])
 
-  React.useEffect(() => {
-    if (id) {
-      getAllCurrentUserPostImages();
-    }
-    }, [id])
+  // React.useEffect(() => {
+  //   if (id) {
+  //     getAllCurrentUserPostImages();
+  //   }
+  //   }, [id])
 
-  React.useEffect(() => {
-    if (id) {
-      getCurrentUserSavedPosts();
-    }
-    }, [id])
+  // React.useEffect(() => {
+  //   if (id) {
+  //     getCurrentUserSavedPosts();
+  //   }
+  //   }, [id])
 
-  React.useEffect(() => {
-    if (id) {
-      getCurrentUserFollowers();
-    }
-    }, [id])
+  // React.useEffect(() => {
+  //   if (id) {
+  //     getCurrentUserFollowers();
+  //   }
+  //   }, [id])
 
-  React.useEffect(() => {
-    if (id) {
-      getCurrentUserFollowings();
-    }
-    }, [id])
+  // React.useEffect(() => {
+  //   if (id) {
+  //     getCurrentUserFollowings();
+  //   }
+  //   }, [id])
 
   React.useEffect(() => {
     if (userReady) {
