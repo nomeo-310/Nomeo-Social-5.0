@@ -150,7 +150,7 @@ const AboutSection = ({currentUser, isLoading, setUserReady}: aboutProps) => {
         newStatus.setValue(currentUser.status)
 
       }
-    }, [currentUser.bio, currentUser.hobbies, currentUser.lastname, currentUser.mobileNumber, currentUser.occupation, currentUser.surname, currentUser.username, editProfile, newState.setSelected])
+    }, [currentUser?.bio, currentUser?.hobbies, currentUser?.lastname, currentUser?.mobileNumber, currentUser?.occupation, currentUser?.surname, currentUser?.username, editProfile, newState?.setSelected])
     
 
     const handleSelectCoverImage = (event: React.ChangeEvent<HTMLInputElement>) => {
