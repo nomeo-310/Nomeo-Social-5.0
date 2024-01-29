@@ -37,9 +37,9 @@ const PageOne = ({formData, setFormData, setErrorMessage, setValidData }:pagePro
   const username = useInput(formData.username);
   const birthdate = useInput(formData.birthdate);
 
-  const age = ageCalculator(birthdate?.value) + ' years';
-  const numericalAge = ageCalculator(birthdate?.value);
-  const birthday = birthayGenerator(birthdate?.value)
+  const age = ageCalculator(birthdate.value) + ' years';
+  const numericalAge = ageCalculator(birthdate.value);
+  const birthday = birthayGenerator(birthdate.value)
 
   const handleSelectGender = (event: React.ChangeEvent<HTMLInputElement>)=> {
     const { value } = event.target
@@ -71,14 +71,13 @@ const PageOne = ({formData, setFormData, setErrorMessage, setValidData }:pagePro
     }, [birthdate.value, setFormData]);
   
   React.useEffect(() => {
-    if (username.value === '' || surname.value === '' || lastname.value === '' || birthdate.value === '' || numericalAge < 15) {
+    if (username.value === '' || surname.value === '' || lastname.value === '' || birthdate.value === '') {
       setValidData(false);
-      setErrorMessage(numericalAge < 15 ? 'You should be atleast 15 years' : 'Fill all empty fields')
     } else {
       setValidData(true)
       setErrorMessage('')
     }
-    }, [birthdate.value, lastname.value, setErrorMessage, setValidData, surname.value, username.value, numericalAge]);
+    }, [birthdate.value, lastname.value, setErrorMessage, setValidData, surname.value, username.value]);
 
   return (
     <div className=''>

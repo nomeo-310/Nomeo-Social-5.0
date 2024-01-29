@@ -98,17 +98,17 @@ const AboutSection = ({currentUser, isLoading, setUserReady}: aboutProps) => {
     const numericalAge = ageCalculator(newBirthDate.value);
     const birthday = birthayGenerator(newBirthDate.value)
     
-    React.useEffect(() => {
-    if (numericalAge < 15 ) {
-      setNewAge(currentUser.age)
-      setNewBirthDateValue(currentUser.birthdate)
-      setNewBirthDay(currentUser.birthday)
-    } else {
-      setNewAge(age)
-      setNewBirthDateValue(newBirthDate.value)
-      setNewBirthDay(birthday)
-    }
-    }, [age, birthday, currentUser.age, currentUser.birthdate, currentUser.birthday, newBirthDate.value, numericalAge])
+    // React.useEffect(() => {
+    // if (numericalAge < 15 ) {
+    //   setNewAge(currentUser.age)
+    //   setNewBirthDateValue(currentUser.birthdate)
+    //   setNewBirthDay(currentUser.birthday)
+    // } else {
+    //   setNewAge(age)
+    //   setNewBirthDateValue(newBirthDate.value)
+    //   setNewBirthDay(birthday)
+    // }
+    // }, [age, birthday, currentUser.age, currentUser.birthdate, currentUser.birthday, newBirthDate.value, numericalAge])
 
     const updateProfileData = {
       username: newUsername.value,
