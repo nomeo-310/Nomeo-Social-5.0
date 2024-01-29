@@ -28,7 +28,7 @@ const patrick = localFont({src: '../../public/font/PatrickHandSC-Regular.woff2'}
 const ProfileLayout = ({leftSection, middleSection, rightSection, mobileProfileNavigation, currentUser, getCurrentUser, setUserReady}:layoutProps) => {
   const {data: session}:any = useSession();
 
-  const noProfile = currentUser.profileCreated === false;
+  const noProfile = currentUser?.profileCreated === false;
   const userLoggedIn = currentUser?._id === session?.user._id;
   
   const Navigation =()=> {
