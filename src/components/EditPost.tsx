@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React from 'react'
 import CardComponent from './CardComponent'
 import ImageAvatar from './ImageAvatar'

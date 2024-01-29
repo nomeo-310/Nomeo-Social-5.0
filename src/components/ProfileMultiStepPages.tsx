@@ -357,7 +357,7 @@ const PageFour = ({formData, setFormData }:partialPageProps) => {
     if (bio.value) {
       setFormData({...formData, bio: bio.value, profileCreated: true})
     } return
-    }, [bio?.value, setFormData ]);
+    }, [bio.value, setFormData ]);
 
   return (
     <div className=''>
