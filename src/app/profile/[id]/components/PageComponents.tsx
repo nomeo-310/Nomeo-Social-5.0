@@ -97,7 +97,7 @@ const AboutSection = ({currentUser, isLoading, setUserReady}: aboutProps) => {
     const birthday = birthayGenerator(newBirthDate.value)
     
     React.useEffect(() => {
-    if (numericalAge < 15 ) {
+    if (numericalAge && numericalAge < 15 ) {
       setNewAge(currentUser.age)
       setNewBirthDateValue(currentUser.birthdate)
       setNewBirthDay(currentUser.birthday)
