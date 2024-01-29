@@ -15,8 +15,7 @@ const LoginUser = () => {
   const router = useRouter();
   const { alertMessage, displayAlert, setAlertMessage, setDisplayAlert, alertType, setAlertType} = useNotifications();
   const status = useStatus();
-  const {data: session, update}:any = useSession();
-  console.log(session)
+  const {data: session}:any = useSession();
 
   const handleClick = () => {
     setDisplayAlert(false);

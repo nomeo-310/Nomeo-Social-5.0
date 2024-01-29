@@ -21,9 +21,7 @@ type Props = {
 }
 
 const EditPost = ({_id, postStatus, postMessage, hashTag, postImage, postLocation, onClick}: Props) => {
-  const [isLoading, setIsLoading] = React.useState(false)
-
-  console.log(hashTag)
+  const [isLoading, setIsLoading] = React.useState(false);
 
   const locationArray = postLocation.split(',')
 
@@ -45,8 +43,8 @@ const EditPost = ({_id, postStatus, postMessage, hashTag, postImage, postLocatio
 
   React.useEffect(() => {
     navigator.geolocation.getCurrentPosition((position) => {
-      longitude.setValue(String(position.coords.longitude))
-      lattitude.setValue(String(position.coords.latitude))
+      longitude.setValue(String(position?.coords.longitude))
+      lattitude.setValue(String(position?.coords.latitude))
     })
   }, []);
 
@@ -133,7 +131,7 @@ const EditPost = ({_id, postStatus, postMessage, hashTag, postImage, postLocatio
       />
       <CardComponent overflow>
         <div className='flex justify-end mb-3'>
-          <CloseIconCircle className='lg:w-8 lg:h-8 w-7 h-7 text-tertiaryRed cursor-pointer ' onClick={onClick}/>
+          <CloseIconCircle className='w-7 h-7 text-tertiaryRed cursor-pointer ' onClick={onClick}/>
         </div>
         <form action="" className='p-1' onSubmit={handleEditPost}>
           <div className='lg:h-[55px] h-[50px] relative'>

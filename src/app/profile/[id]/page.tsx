@@ -3,28 +3,22 @@
 
 import React from 'react'
 import withAuth from '@/utils/withAuth';
-import Feeds from '@/components/Feeds';
 import ProfileLayout from '@/components/ProfileLayout';
 import CardComponent from '@/components/CardComponent';
 import UserList from '@/components/UserList';
 import { useParams } from 'next/navigation';
-import { AboutSection, PhotosSection, SavedPostsSection } from './components/PageComponents';
+import { AboutSection, FollowerSection, FollowingSection, PhotosSection, PostFeed, SavedPostsSection } from './components/PageComponents';
 import { useSession } from 'next-auth/react';
 import { BookMarkOutlined, Contacts, FollowedUserOutlined, Gallery, GroupUserOutlined, InfoFilled, RSSFeeds, ShareNodeOutlined } from '@/components/IconPacks';
-import FriendList from '@/components/FriendList';
 
 const Profile = () => {
   const {data: session, update}:any = useSession();
-
   const params = useParams();
   const {id}:any = params;
 
   const [currentUser, setCurrentUser] = React.useState<any>({});
-  const [currentUserPosts, setCurrentUserPosts] = React.useState<any[]>([]);
-  const [currentUserSavedPosts, setCurrentUserSavedPosts] = React.useState<any[]>([]);
-  const [currentUserFollowers, setCurrentUserFollowers] = React.useState<any[]>([]);
-  const [currentUserFollowings, setCurrentUserFollowings] = React.useState<any[]>([]);
-  const [currentUserPostImages, setCurrentUserPostImages] = React.useState<[{public_id: string, url: string}]>([{public_id: '', url: ''}]);
+  
+  
   const [userReady, setUserReady] = React.useState(false)
   const [isLoading, setIsLoading] = React.useState(false)
 
@@ -70,42 +64,6 @@ const Profile = () => {
     })
   }
 
-  const getCurrentUserFollowers = async () => {
-    setIsLoading(true)
-    try {
-      const response = await fetch(`/api/getFollowers/${id}`, {
-        method: "GET",
-        headers: {"Content-Type": "application/json"},
-        cache: 'no-store'
-      })
-      if (response) {
-        const data = await response.json();
-        setCurrentUserFollowers(data);
-      }
-    } catch (error) {
-      console.log(error)
-    }
-    setIsLoading(false)
-  }
-
-  const getCurrentUserFollowings = async () => {
-    setIsLoading(true)
-    try {
-      const response = await fetch(`/api/getFollowings/${id}`, {
-        method: "GET",
-        headers: {"Content-Type": "application/json"},
-        cache: 'no-store'
-      })
-      if (response) {
-        const data = await response.json();
-        setCurrentUserFollowings(data);
-      }
-    } catch (error) {
-      console.log(error)
-    }
-    setIsLoading(false)
-  }
-
   const getCurrentUser = async () => {
     setIsLoading(true)
     try {
@@ -121,94 +79,10 @@ const Profile = () => {
     }
     setIsLoading(false)
   }
-  
-  const getAllCurrentUserPosts = async () => {
-    setIsLoading(true)
-    try {
-      const response = await fetch(`/api/getAllUserPosts/${id}`, {
-        method: "GET",
-        headers: {"Content-Type": "application/json"},
-        cache: 'no-store'
-      })
-      if (response) {
-        const data = await response.json();
-        setCurrentUserPosts(data)
-      }
-    } catch (error) {
-      console.log(error)
-    }
-    setIsLoading(false)
-  }
-
-  const getAllCurrentUserPostImages = async () => {
-    setIsLoading(true)
-    try {
-      const response = await fetch(`/api/getAllUserPostImages/${id}`, {
-        method: "GET",
-        headers: {"Content-Type": "application/json"},
-        cache: 'no-store'
-      })
-      if (response) {
-        const data = await response.json();
-        setCurrentUserPostImages(data)
-      }
-    } catch (error) {
-      console.log(error)
-    }
-    setIsLoading(false)
-  }
-
-  const getCurrentUserSavedPosts = async () => {
-    setIsLoading(true)
-    try {
-      const response = await fetch(`/api/getSavedPosts/${id}`, {
-        method: "GET",
-        headers: {"Content-Type": "application/json"},
-        cache: 'no-store'
-      })
-      if (response) {
-        const data = await response.json();
-        setCurrentUserSavedPosts(data)
-      }
-    } catch (error) {
-      console.log(error)
-    }
-    setIsLoading(false)
-  }
 
   React.useEffect(() => {
     if (id) {
       getCurrentUser();
-    }
-    }, [id])
-
-  React.useEffect(() => {
-    if (id) {
-      getAllCurrentUserPosts();
-    }
-    }, [id])
-
-  React.useEffect(() => {
-    if (id) {
-      getAllCurrentUserPostImages();
-    }
-    }, [id])
-
-  React.useEffect(() => {
-    if (id) {
-      getCurrentUserSavedPosts();
-    }
-    }, [id])
-
-  React.useEffect(() => {
-    if (id) {
-      getCurrentUserFollowers();
-    }
-    }, [id])
-
-  React.useEffect(() => {
-    if (id) {
-      getCurrentUserFollowings();
     }
     }, [id])
 
@@ -254,7 +128,7 @@ const Profile = () => {
   const MainPageProfileNav = () => {
     return (
       <React.Fragment>
-        {currentUser?._id === session?.user._id && 
+        { currentUser?._id === session?.user._id && 
           <CardComponent overflow>
             <ProfileNavigation/>
           </CardComponent>
@@ -266,12 +140,12 @@ const Profile = () => {
   const ProfileContent = () => {
     return (
       <>
-        { activeTab === 'feeds' && <Feeds data={currentUserPosts}/> }
+        { activeTab === 'feeds' && <PostFeed/> }
         { activeTab === 'about' && <AboutSection currentUser={currentUser} isLoading={isLoading} setUserReady={setUserReady}/> }
-        { activeTab === 'photos' && <PhotosSection data={currentUserPostImages}/> }
-        { activeTab === 'followers' && <FriendList data={currentUserFollowers} emptyDataText='You have no followers yet' isLoading={isLoading}/> }
-        { activeTab === 'followings' && <FriendList data={currentUserFollowings} emptyDataText='You are following anyone yet' isLoading={isLoading}/> }
-        { activeTab === 'saved posts' && <SavedPostsSection data={currentUserSavedPosts}/> }
+        { activeTab === 'photos' && <PhotosSection/> }
+        { activeTab === 'followers' && <FollowerSection/> }
+        { activeTab === 'followings' && <FollowingSection/> }
+        { activeTab === 'saved posts' && <SavedPostsSection /> }
         { activeTab === 'userlist' && <div className='lg:hidden'><UserList/></div> }
       </>
     )

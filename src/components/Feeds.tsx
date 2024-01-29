@@ -15,7 +15,7 @@ const Feeds = ({data}:feedsProps) => {
       { hideCreatePost ? '' : <CreatePost/> }
       { data?.length < 1 ?
         <CardComponent>
-          <h2 className='lg:text-base text-sm'>No Posts yet</h2>
+          <h2 className='lg:text-base text-sm'>You have not created any post yet.</h2>
         </CardComponent> :
         data && data?.map((post:any, index:number) => (
         <FeedSinglePost {...post} key={`post_${index}`} setHideCreatePost={setHideCreatePost}/>

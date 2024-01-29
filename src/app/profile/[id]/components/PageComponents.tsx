@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 /* eslint-disable react-hooks/exhaustive-deps */
 
 import React from 'react'
@@ -17,17 +18,14 @@ import { aboutProps, itemProp, itemsProps } from '@/types/types'
 import { timeFormatter } from '@/hooks/timeFormatter'
 import { PlainSinglePost } from '@/components/SinglePost'
 import { allNigerianStates } from '../../../../../public/data/allNigerianSAtate'
-
-interface photoProps {
-  data: [{public_id: string, url: string}]
-}
-
-interface savedPostProps {
-  data: any[]
-}
+import { useParams } from 'next/navigation'
+import FriendList from '@/components/FriendList'
+import Feeds from '@/components/Feeds'
 
 
 const AboutSection = ({currentUser, isLoading, setUserReady}: aboutProps) => {
+    const params = useParams();
+    const {id}:any = params;
   
     const {data: session}:any = useSession();
     const userLoggedIn = currentUser?._id === session.user?._id;
@@ -98,17 +96,17 @@ const AboutSection = ({currentUser, isLoading, setUserReady}: aboutProps) => {
     const numericalAge = ageCalculator(newBirthDate.value);
     const birthday = birthayGenerator(newBirthDate.value)
     
-    // React.useEffect(() => {
-    // if (numericalAge < 15 ) {
-    //   setNewAge(currentUser.age)
-    //   setNewBirthDateValue(currentUser.birthdate)
-    //   setNewBirthDay(currentUser.birthday)
-    // } else {
-    //   setNewAge(age)
-    //   setNewBirthDateValue(newBirthDate.value)
-    //   setNewBirthDay(birthday)
-    // }
-    // }, [age, birthday, currentUser.age, currentUser.birthdate, currentUser.birthday, newBirthDate.value, numericalAge])
+    React.useEffect(() => {
+    if (numericalAge < 15 ) {
+      setNewAge(currentUser.age)
+      setNewBirthDateValue(currentUser.birthdate)
+      setNewBirthDay(currentUser.birthday)
+    } else {
+      setNewAge(age)
+      setNewBirthDateValue(newBirthDate.value)
+      setNewBirthDay(birthday)
+    }
+    }, [age, birthday, currentUser.age, currentUser.birthdate, currentUser.birthday, newBirthDate.value, numericalAge])
 
     const updateProfileData = {
       username: newUsername.value,
@@ -378,7 +376,7 @@ const AboutSection = ({currentUser, isLoading, setUserReady}: aboutProps) => {
                     }
                   </div>
                   {cover ?
-                    <Image src={URL.createObjectURL(cover)} alt="default_banner" className='w-full object-cover' fill/> :
+                    <img src={URL.createObjectURL(cover)} alt="default_banner" className='w-full object-cover'/> :
                     <label htmlFor='coverImage'>
                       <div className='flex flex-col items-center justify-center cursor-pointer'>
                         <ImageAddOutlined className='w-12 h-12'/>
@@ -392,8 +390,8 @@ const AboutSection = ({currentUser, isLoading, setUserReady}: aboutProps) => {
                   {!editProfile && 
                     <>
                     { currentUser?.coverImage?.url === '' ?
-                      <Image src='/images/defaultCoverImage.jpg' alt="default_banner" className='w-full object-cover' fill/> :
-                      <Image src={currentUser?.coverImage?.url} alt="default_banner" className='w-full object-cover' fill/>
+                      <img src='/images/defaultCoverImage.jpg' alt="default_banner" className='w-full object-cover'/> :
+                      <img src={currentUser?.coverImage?.url} alt="default_banner" className='w-full object-cover'/>
                     }
                     </>
                   }
@@ -577,8 +575,8 @@ const AboutSection = ({currentUser, isLoading, setUserReady}: aboutProps) => {
                   <h2 className='lg:text-sm text-xs'><span className='font-semibold capitalize'>age</span>: {currentUser.age}</h2>
                   {userLoggedIn && <h2 className='lg:text-sm text-xs capitalize'><span className='font-semibold capitalize'>birthday</span>: {currentUser.birthday}</h2>}
                   {userLoggedIn && <h2 className='lg:text-sm text-xs'><span className='font-semibold capitalize'>mobile number</span>: {currentUser.mobileNumber}</h2>}
-                  <h2 className='lg:text-sm text-xs capitalize'><span className='font-semibold capitalize'>hobbies</span>: {currentUser.hobbies.join(' , ')}</h2>
-                  <h2 className='lg:text-sm text-xs capitalize'><span className='font-semibold capitalize'>interests</span>: {currentUser.interests.join(' , ')}</h2>
+                  <h2 className='lg:text-sm text-xs capitalize'><span className='font-semibold capitalize'>hobbies</span>: {currentUser?.hobbies.join(' , ')}</h2>
+                  <h2 className='lg:text-sm text-xs capitalize'><span className='font-semibold capitalize'>interests</span>: {currentUser?.interests.join(' , ')}</h2>
                 </div>
               }
             </CardComponent>
@@ -654,32 +652,95 @@ const AboutSection = ({currentUser, isLoading, setUserReady}: aboutProps) => {
   )
 }
 
-const PhotosSection = ({data}:photoProps) => {
+const PhotosSection = () => {
+  const params = useParams();
+  const {id}:any = params;
+
+  const [isLoading, setIsLoading] = React.useState(false)
+  const [currentUserPostImages, setCurrentUserPostImages] = React.useState<[{_id:string, postImage: { public_id: string, url: string }, createdAt: string}]>([{_id: '', postImage: {public_id: '', url: ''}, createdAt: ''}]);
+
+  const getAllCurrentUserPostImages = async () => {
+    setIsLoading(true)
+    try {
+      const response = await fetch(`/api/getAllUserPostImages/${id}`, {
+        method: "GET",
+        headers: {"Content-Type": "application/json"},
+        cache: 'no-store'
+      })
+      if (response) {
+        const data = await response.json();
+        setCurrentUserPostImages(data)
+      }
+    } catch (error) {
+      console.log(error)
+    }
+    setIsLoading(false)
+  }
+
+  React.useEffect(() => {
+    if (id) {
+      getAllCurrentUserPostImages();
+    }
+    }, [id])
+
   return (
     <React.Fragment>
-    { data && data.length > 0 ?
-      <div className='w-full grid grid-cols-2 items-start justify-start gap-3 overflow-hidden'>
-        {data.map((item:any, index:number) => (
-          <div className='w-full' key={item._id}>
-            <div className='relative w-full rounded overflow-hidden h-[12rem] flex items-center justify-center'>
-              <Image src={item.postImage.url} fill className='object-cover' alt={`postImage_${index}`}/>
-            </div>
-            <h2 className='mt-1'>{timeFormatter(item.createdAt)}</h2>
-          </div>
-          ))}
-      </div> :
-      <CardComponent><h2 className='lg:text-base text-sm'>You have no photos yet</h2></CardComponent>
-    }
+      { isLoading ? <FullScreenLoading spinnerSize='70' minHeight='lg:min-h-[590px] min-h-[600px]'/> : 
+      <React.Fragment>
+        { currentUserPostImages && currentUserPostImages.length > 0 ?
+          <div className='w-full grid grid-cols-2 items-start justify-start gap-3 overflow-hidden'>
+            { currentUserPostImages.map((item:any, index:number) => (
+              <div className='w-full' key={item._id}>
+                <div className='relative w-full rounded overflow-hidden h-[12rem] flex items-center justify-center'>
+                  <Image src={item.postImage.url} fill className='object-cover' alt={`postImage_${index}`}/>
+                </div>
+                <h2 className='mt-1'>{timeFormatter(item.createdAt)}</h2>
+              </div>
+              ))}
+          </div> :
+          <CardComponent><h2 className='lg:text-base text-sm'>You have no photos yet</h2></CardComponent>
+        }
+      </React.Fragment> }
     </React.Fragment>
   )
 }
 
-const SavedPostsSection = ({data}:savedPostProps) => {
+const SavedPostsSection = () => {
+  const params = useParams();
+  const {id}:any = params;
+
+  const [isLoading, setIsLoading] = React.useState(false)
+  const [currentUserSavedPosts, setCurrentUserSavedPosts] = React.useState<any[]>([]);
+
+  const getCurrentUserSavedPosts = async () => {
+    setIsLoading(true)
+    try {
+      const response = await fetch(`/api/getSavedPosts/${id}`, {
+        method: "GET",
+        headers: {"Content-Type": "application/json"},
+        cache: 'no-store'
+      })
+      if (response) {
+        const data = await response.json();
+        setCurrentUserSavedPosts(data)
+      }
+    } catch (error) {
+      console.log(error)
+    }
+    setIsLoading(false)
+  }
+
+  React.useEffect(() => {
+    if (id) {
+      getCurrentUserSavedPosts();
+    }
+    }, [id])
+
   return (
     <React.Fragment>
-      { data && data.length > 0 ? 
+      { currentUserSavedPosts && currentUserSavedPosts.length > 0 ? 
         <React.Fragment>
-          { data.map((item:any, index:number) => (
+          { currentUserSavedPosts.map((item:any, index:number) => (
             <PlainSinglePost key={index} {...item}/>
             ))
           }  
@@ -690,4 +751,118 @@ const SavedPostsSection = ({data}:savedPostProps) => {
   )
 }
 
-export { AboutSection, PhotosSection, SavedPostsSection };
+const FollowerSection = () => {
+  const params = useParams();
+  const {id}:any = params;
+
+  const [isLoading, setIsLoading] = React.useState(false)
+  const [currentUserFollowers, setCurrentUserFollowers] = React.useState<any[]>([]);
+
+  const getCurrentUserFollowers = async () => {
+    setIsLoading(true)
+    try {
+      const response = await fetch(`/api/getFollowers/${id}`, {
+        method: "GET",
+        headers: {"Content-Type": "application/json"},
+        cache: 'no-store'
+      })
+      if (response) {
+        const data = await response.json();
+        setCurrentUserFollowers(data);
+      }
+    } catch (error) {
+      console.log(error)
+    }
+    setIsLoading(false)
+  }
+
+  React.useEffect(() => {
+    if (id) {
+      getCurrentUserFollowers();
+    }
+    }, [id])
+
+  return (
+    <React.Fragment>
+      <FriendList data={currentUserFollowers} emptyDataText='You have no followers yet' isLoading={isLoading}/>
+    </React.Fragment>
+  )
+}
+
+const FollowingSection = () => {
+  const params = useParams();
+  const {id}:any = params;
+
+  const [isLoading, setIsLoading] = React.useState(false)
+  const [currentUserFollowings, setCurrentUserFollowings] = React.useState<any[]>([]);
+
+  const getCurrentUserFollowings = async () => {
+    setIsLoading(true)
+    try {
+      const response = await fetch(`/api/getFollowings/${id}`, {
+        method: "GET",
+        headers: {"Content-Type": "application/json"},
+        cache: 'no-store'
+      })
+      if (response) {
+        const data = await response.json();
+        setCurrentUserFollowings(data);
+      }
+    } catch (error) {
+      console.log(error)
+    }
+    setIsLoading(false)
+  }
+
+  React.useEffect(() => {
+    if (id) {
+      getCurrentUserFollowings();
+    }
+    }, [id])
+
+  return (
+    <React.Fragment>
+      <FriendList data={currentUserFollowings} emptyDataText='You are not following anyone yet' isLoading={isLoading}/>
+    </React.Fragment>
+  )
+}
+
+const PostFeed = () => {
+  const params = useParams();
+  const {id}:any = params;
+
+  const [isLoading, setIsLoading] = React.useState(false)
+  const [currentUserPosts, setCurrentUserPosts] = React.useState<any[]>([]);
+
+  const getAllCurrentUserPosts = async () => {
+    setIsLoading(true)
+    try {
+      const response = await fetch(`/api/getAllUserPosts/${id}`, {
+        method: "GET",
+        headers: {"Content-Type": "application/json"},
+        cache: 'no-store'
+      })
+      if (response) {
+        const data = await response.json();
+        setCurrentUserPosts(data)
+      }
+    } catch (error) {
+      console.log(error)
+    }
+    setIsLoading(false)
+  }
+
+  React.useEffect(() => {
+    if (id) {
+      getAllCurrentUserPosts();
+    }
+    }, [id])
+
+  return (
+    <React.Fragment>
+      <Feeds data={currentUserPosts}/>
+    </React.Fragment>
+  )
+}
+
+export { AboutSection, PhotosSection, SavedPostsSection, FollowerSection, FollowingSection, PostFeed };

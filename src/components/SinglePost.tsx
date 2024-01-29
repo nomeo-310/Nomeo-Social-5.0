@@ -22,7 +22,7 @@ type menuItemProps = {
   onClick: () => void
 }
 
-const FeedSinglePost = ({isRepost, originalAuthor, originalAuthorId, originalAuthorProfilePicture, originalPostTime, reposts, _id, postStatus, postMessage, postAuthor, postAuthorId, postAuthorProfilePicture, postImage, updatedAt, savedPosts, hashTag, comments, likes, postLocation, setHideCreatePost}: singlePostProps) => {
+const FeedSinglePost = ({isRepost, originalAuthor, originalAuthorProfilePicture, originalPostTime, reposts, _id, postStatus, postMessage, postAuthor, postAuthorId, postAuthorProfilePicture, postImage, updatedAt, savedPosts, hashTag, comments, likes, postLocation, setHideCreatePost}: singlePostProps) => {
   const [showMenu, setShowMenu] = React.useState(false);
   const [editPost, setEditPost] = React.useState(false);
   const [showCommentSection, setShowCommentSection] = React.useState(false);
