@@ -37,9 +37,9 @@ const PageOne = ({formData, setFormData, setErrorMessage, setValidData }:pagePro
   const username = useInput(formData.username);
   const birthdate = useInput(formData.birthdate);
 
-  const age = ageCalculator(birthdate.value) + ' years';
-  const numericalAge = ageCalculator(birthdate.value);
-  const birthday = birthayGenerator(birthdate.value)
+  const age = ageCalculator(birthdate?.value) + ' years';
+  const numericalAge = ageCalculator(birthdate?.value);
+  const birthday = birthayGenerator(birthdate?.value)
 
   const handleSelectGender = (event: React.ChangeEvent<HTMLInputElement>)=> {
     const { value } = event.target
