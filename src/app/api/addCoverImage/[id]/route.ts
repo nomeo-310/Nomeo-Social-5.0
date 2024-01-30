@@ -5,7 +5,8 @@ import cloudinary from "@/utils/cloudinary";
 import { imageProps } from "@/types/types";
 
 
-export const PUT = async (request: NextRequest) => {
+export const PUT = async (request: NextRequest, {params}:{params: {id: string}}) => {
+  console.log(params.id)
   const { public_id, url }:imageProps = await request.json();
 
   const updateData = { coverImage: { public_id: public_id, url: url }}

@@ -12,10 +12,10 @@ export interface editPostProps {
   postLocation: string,
 }
 
-export const PUT = async (request: NextRequest, response: NextResponse) => {
+export const PUT = async (request: NextRequest, {params}:{params: {id: string}}) => {
   const { postStatus, hashTag, postImage, postMessage, postLocation }:editPostProps = await request.json();
 
-  const postId = request.url.split('http://localhost:3000/api/editPost/')[1];
+  const postId = params.id
   await connectToDatabase();
   const post = await Post.findById(postId);
   if (post) {

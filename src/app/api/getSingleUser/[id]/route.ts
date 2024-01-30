@@ -3,10 +3,11 @@ import connectToDatabase from "@/libs/mongodb";
 import { NextResponse, NextRequest } from "next/server";
 
 
-export const GET = async (request: NextRequest, response: NextResponse) => {
-  await connectToDatabase();
+export const GET = async (request:NextRequest, {params}:{params: {id: any}}) => {
+  const userId = params.id;
+  console.log(userId)
 
-  const userId = request.url.split('http://localhost:3000/api/getSingleUser/')[1];
+  await connectToDatabase();
 
   try {
     const user:any = await User.findOne({_id: userId})

@@ -3,7 +3,9 @@ import connectToDatabase from "@/libs/mongodb";
 import { NextResponse, NextRequest } from "next/server";
 
 
-export const PUT = async (request: NextRequest) => {
+export const PUT = async (request: NextRequest, {params}:{params: {id: string}}) => {
+  console.log(params.id)
+  
   const { followId }:any = await request.json();
   const userId = request.url.split('http://localhost:3000/api/addFollower/')[1];
 

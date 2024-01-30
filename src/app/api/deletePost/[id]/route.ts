@@ -6,9 +6,9 @@ import cloudinary from "@/utils/cloudinary";
 import User from "@/models/User";
 
 
-export const DELETE = async (request: NextRequest, response: NextResponse) => {
+export const DELETE = async (request:NextRequest, {params}:{params: {id: string}}) => {
 
-  const id = request.url.split('http://localhost:3000/api/deletePost/')[1];
+  const id = params.id
   const postId =  mongoose.mongo.BSON.ObjectId.createFromHexString(id)
   await connectToDatabase();
   const post = await Post.findById(postId);

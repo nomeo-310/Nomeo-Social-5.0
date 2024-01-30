@@ -4,9 +4,9 @@ import connectToDatabase from "@/libs/mongodb";
 import { NextResponse, NextRequest } from "next/server";
 
 
-export const GET = async (request: NextRequest, response: NextResponse) => {
+export const GET = async (request: NextRequest, {params}:{params: {id: string}}) => {
   await connectToDatabase();
-  const userId = request.url.split('http://localhost:3000/api/getSavedPosts/')[1];
+  const userId = params.id
 
   const user = await User.findById(userId);
   if (user) {

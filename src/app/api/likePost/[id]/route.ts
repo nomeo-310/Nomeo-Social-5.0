@@ -3,10 +3,10 @@ import connectToDatabase from "@/libs/mongodb";
 import { NextResponse, NextRequest } from "next/server";
 
 
-export const PUT = async (request: NextRequest) => {
+export const PUT = async (request: NextRequest, {params}:{params: {id: string}}) => {
   const { userId }:any = await request.json();
   
-  const postId = request.url.split('http://localhost:3000/api/likePost/')[1];
+  const postId = params.id;
 
   await connectToDatabase();
 

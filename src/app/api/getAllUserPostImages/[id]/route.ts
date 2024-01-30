@@ -1,11 +1,10 @@
 import Post from "@/models/Post";
 import connectToDatabase from "@/libs/mongodb";
-import { NextResponse, NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 
-export const GET = async (request: NextRequest, response: NextResponse) => {
-
-  const postAuthorId = request.url.split('http://localhost:3000/api/getAllUserPostImages/')[1];
+export const GET = async (request:NextRequest, {params}:{params: {id: string}}) => {
+  const postAuthorId = params.id;
 
   await connectToDatabase();
 

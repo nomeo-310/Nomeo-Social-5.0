@@ -1,11 +1,12 @@
 import User from "@/models/User";
 import connectToDatabase from "@/libs/mongodb";
-import { NextResponse, NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 
-export const GET = async (request: NextRequest, response: NextResponse) => {
+export const GET = async (request:NextRequest, {params}:{params: {id: string}}) => {
+  const userId = params.id
+
   await connectToDatabase();
-  const userId = request.url.split('http://localhost:3000/api/getFollowers/')[1];
 
   const user = await User.findById(userId);
   if (user) {

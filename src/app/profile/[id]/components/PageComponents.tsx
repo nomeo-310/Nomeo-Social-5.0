@@ -859,7 +859,7 @@ const PostFeed = () => {
 
   return (
     <React.Fragment>
-      <Feeds data={currentUserPosts}/>
+      <Feeds data={currentUserPosts} isLoading={isLoading}/>
     </React.Fragment>
   )
 }

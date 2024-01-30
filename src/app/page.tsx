@@ -49,7 +49,7 @@ const Home =() => {
     <React.Fragment>
       <MainLayout 
         leftSection={<UserProfile/>} 
-        middleSection={ isLoading ? <FullScreenLoading spinnerSize="80" minHeight="lg:min-h-[590px] min-h-[600px]"/> : <Feeds data={allPosts}/>}
+        middleSection={<Feeds data={allPosts} isLoading={isLoading}/>}
         rightSection={<UserList/>}
       />
     </React.Fragment>
