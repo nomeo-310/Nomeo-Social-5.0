@@ -6,14 +6,13 @@ import { imageProps } from "@/types/types";
 
 
 export const PUT = async (request: NextRequest, {params}:{params: {id: string}}) => {
-  console.log(params.id)
-  const { public_id, url }:imageProps = await request.json();
+  const userId = params.id;
 
+  const { public_id, url }:imageProps = await request.json();
   const updateData = { coverImage: { public_id: public_id, url: url }}
 
   await connectToDatabase();
 
-  const userId = request.url.split('http://localhost:3000/api/addCoverImage/')[1];
 
   const user:any = await User.findById(userId);
   const oldImage:any = user.coverImage;

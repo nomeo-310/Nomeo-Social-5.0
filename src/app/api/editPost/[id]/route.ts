@@ -15,7 +15,7 @@ export interface editPostProps {
 export const PUT = async (request: NextRequest, {params}:{params: {id: string}}) => {
   const { postStatus, hashTag, postImage, postMessage, postLocation }:editPostProps = await request.json();
 
-  const postId = params.id
+  const postId = params.id;
   await connectToDatabase();
   const post = await Post.findById(postId);
   if (post) {

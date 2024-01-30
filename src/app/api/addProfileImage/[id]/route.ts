@@ -6,10 +6,10 @@ import { imageProps } from "@/types/types";
 
 
 
-export const PUT = async (request: NextRequest) => {
+export const PUT = async (request: NextRequest, {params}:{params: {id: string}}) => {
+  const userId = params.id;
   const { public_id, url }:imageProps = await request.json();
   await connectToDatabase();
-  const userId = request.url.split('http://localhost:3000/api/addProfileImage/')[1];
 
   const updateData = { profileImage: { public_id: public_id, url: url }}
 

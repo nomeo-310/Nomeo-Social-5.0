@@ -5,14 +5,14 @@ import { editFormProps } from "@/types/types";
 
 
 
-export const PUT = async (request: NextRequest, response: NextResponse, {params}:{params: {id: string}}) => {
+export const PUT = async (request: NextRequest, {params}:{params: {id: string}}) => {
+  const userId = params.id;
   const { username, surname, lastname, status, address, hobbies, otherSocialProfiles, occupation, birthdate, birthday, age, city, state, mobileNumber, bio, interests}:editFormProps = await request.json();
 
   const updateData:editFormProps = { username: username, surname: surname, lastname: lastname, status: status, address: address, hobbies: hobbies, otherSocialProfiles: otherSocialProfiles, occupation: occupation, birthdate: birthdate, birthday: birthday, age: age, city: city, state: state, mobileNumber: mobileNumber, bio: bio, interests: interests }
 
   await connectToDatabase();
 
-  const userId = params.id;
 
   try {
     await User.findOneAndUpdate({_id: userId}, {$set: updateData})
