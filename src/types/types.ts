@@ -185,7 +185,7 @@ export interface singlePostProps {
 }
 
 export interface aboutProps {
-  currentUser: any
+  currentUser: currentUserProps
   isLoading: boolean
   setUserReady: React.Dispatch<React.SetStateAction<boolean>>
 }
@@ -202,4 +202,38 @@ export interface itemsProps {
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void
   checked: boolean
   icon: React.ReactNode
+}
+
+export interface currentUserProps {
+  _id: string
+username: string
+surname: string
+lastname: string
+email: string
+password: string
+profileImage: {public_id: string, url: string}
+coverImage: {public_id: string, url: string}
+gender: string
+status: string
+hobbies: string[]
+occupation: string
+address: string
+otherSocialProfiles: string[]
+profileCreated: boolean
+savedPosts: string[]
+reTweets: string[]
+followers: string[]
+followings: string[]
+birthdate: string
+birthday: string
+age: string
+mobileNumber: string
+city: string
+state: string
+bio: string
+createdPosts: string[]
+sharedPosts: string[]
+interests: string[]
+createdAt: Date
+updatedAt: Date
 }
