@@ -28,7 +28,8 @@ const Home =() => {
     try {
       const response = await fetch('/api/getPosts', {
         method: 'GET',
-        headers: {"Content-Type": "application/json"}
+        headers: {"Content-Type": "application/json"},
+        cache: 'no-store'
       });
       const data = await response.json();
       setAllPosts(data)
